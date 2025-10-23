@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Физика Онлайн</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css  ">
+  <style>
+    :root {
+      --bg: #000;
+      --bg-gradient: linear-gradient(135deg, #111827, #000000, #111827);
+      --text: #fff;
+      --text-secondary: #9ca3af;
+      --border: rgba(255,255,255,0.1);
+      --card-bg: rgba(255,255,255,0.05);
+      --card-hover: rgba(255,255,255,0.1);
+      --button-border: rgba(255,255,255,0.3);
+      --button-hover: rgba(255,255,255,0.1);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    body {
+      background: var(--bg-gradient);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 80px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+    }
+    .header-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 24px 16px;
+      text-align: center;
+    }
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      margin: 0 auto 16px;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .telegram-info {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .telegram-info a {
+      color: #60a5fa;
+      text-decoration: underline;
+    }
+    nav {
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      padding: 12px 0;
+    }
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .tab-btn {
+      padding: 12px 16px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background: transparent;
+      border: 1px solid var(--button-border);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .tab-btn:hover {
+      background: var(--button-hover);
+      color: var(--text);
+    }
+    .tab-btn.active {
+      background: var(--card-hover);
+      color: var(--text);
+    }
+    main {
+      max-width: 800px;
+      margin: 32px auto 0;
+      padding: 0 16px;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-desc {
+      text-align: center;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+    .topic-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: background 0.3s ease;
+    }
+    .topic-card:hover {
+      background: var(--card-hover);
+    }
+    .topic-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+    .topic-info h3 {
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+    }
+    .topic-info p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+    .start-link {
+      color: #60a5fa;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-weight: 500;
+      padding: 0;
+      font-size: inherit;
+      transition: color 0.2s;
+    }
+    .start-link:hover {
+      color: #3b82f6;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 16px;
+      border-bottom: 1px solid #eee;
+    }
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #000;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: #666;
+    }
+    .modal-body {
+      padding: 24px;
+      text-align: center;
+    }
+    .slide-text {
+      font-size: 1.125rem;
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .task-question {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #000;
+      margin-bottom: 16px;
+    }
+    .task-options {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .task-option {
+      display: block;
+      margin: 8px 0;
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+      color: #000;
+    }
+    .task-option:hover {
+      background: #e9ecef;
+    }
+    .task-option input {
+      margin-right: 10px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .modal-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .prev-btn {
+      background: #f1f3f4;
+      color: #333;
+    }
+    .next-btn, .check-btn {
+      background: #000;
+      color: white;
+    }
+    .score-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #16a34a;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+    footer {
+      text-align: center;
+      padding: 32px 16px 16px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+    }
+    @media (max-width: 640px) {
+      .modal-content {
+        width: 95%;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="avatar">
+        <img src="https://i.imgur.com/7QYJdZr.png  " alt="Аватар">
+      </div>
+      <h1>Физика Онлайн</h1>
+      <p class="telegram-info">
+        Чат в Telegram для решения сложных задач и помощь в решении<br>
+        <a href="https://t.me/genesischats  " target="_blank">https://t.me/genesischats  </a>
+      </p>
+    </div>
+  </header>
+  <nav>
+    <div class="nav-tabs">
+      <button class="tab-btn active" data-tab="physics7">Физика 7 класс</button>
+      <button class="tab-btn" data-tab="physics8">Физика 8 класс</button>
+      <button class="tab-btn" data-tab="physics9">Физика 9 класс</button>
+      <button class="tab-btn" data-tab="oge">Пробные задания ОГЭ</button>
+    </div>
+  </nav>
+  <main>
+    <h2 class="section-title" id="section-title">Физика 7 класс</h2>
+    <p class="section-desc">Изучайте физику с интерактивными презентациями и проверяйте знания на практике</p>
+    <div id="topics-container">
+      <!-- Topics will be inserted here by JS -->
+    </div>
+  </main>
+  <div class="modal" id="presentation-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-topic-title">Тема</h3>
+        <button class="close-btn" id="close-modal">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Content will be inserted by JS -->
+      </div>
+    </div>
+  </div>
+  <footer>
+    <p>© 2025 Физика Онлайн. Все права защищены.</p>
+  </footer>
+  <script>
+    // === БЛОКИРОВКА КОПИРОВАНИЯ ===
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey && (e.key === 'c' || e.key === 'C' || e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+      }
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) {
+        e.preventDefault();
+      }
+      if (e.key === 'F12') {
+        e.preventDefault();
+      }
+    });
+
+    // === ДАННЫЕ ТЕМ (БЕЗ ЗАДАЧ — они генерируются динамически) ===
+    const topicsData = {
+      physics7: {
+        title: "Физика 7 класс",
+        topics: [
+          {
+            id: "mechanics",
+            name: "Механика",
+            desc: "Движение, сила, давление",
+            slides: [
+              "Механика изучает движение тел и причины этого движения.",
+              "Основные понятия: траектория, путь, скорость, ускорение.",
+              "Законы Ньютона описывают связь между силой и движением."
+            ]
+          },
+          {
+            id: "pressure",
+            name: "Давление",
+            desc: "Давление твердых тел, жидкостей и газов",
+            slides: [
+              "Давление — это физическая величина, равная отношению силы к площади.",
+              "Единица измерения давления — Паскаль (Па).",
+              "Давление в жидкостях и газах передается одинаково во всех направлениях."
+            ]
+          }
+        ]
+      },
+      physics8: {
+        title: "Физика 8 класс",
+        topics: [
+          {
+            id: "thermal",
+            name: "Тепловые явления",
+            desc: "Теплопередача, агрегатные состояния",
+            slides: [
+              "Теплопередача происходит тремя способами: теплопроводность, конвекция, излучение.",
+              "Количество теплоты измеряется в Джоулях (Дж).",
+              "Удельная теплоемкость показывает, сколько теплоты нужно для нагревания 1 кг вещества."
+            ]
+          },
+          {
+            id: "electricity",
+            name: "Электричество",
+            desc: "Электрические заряды, ток, напряжение",
+            slides: [
+              "Электрический ток — это упорядоченное движение заряженных частиц.",
+              "Сила тока измеряется в Амперах (А), напряжение — в Вольтах (В).",
+              "Закон Ома: сила тока прямо пропорциональна напряжению и обратно пропорциональна сопротивлению."
+            ]
+          }
+        ]
+      },
+      physics9: {
+        title: "Физика 9 класс",
+        topics: [
+          {
+            id: "mechanics9",
+            name: "Механика (продолжение)",
+            desc: "Кинематика, динамика, законы сохранения",
+            slides: [
+              "Равноускоренное движение характеризуется постоянным ускорением.",
+              "Импульс тела равен произведению массы на скорость.",
+              "Закон сохранения импульса: суммарный импульс замкнутой системы остается постоянным."
+            ]
+          },
+          {
+            id: "waves",
+            name: "Колебания и волны",
+            desc: "Механические колебания, звук, электромагнитные волны",
+            slides: [
+              "Период колебаний — время одного полного колебания.",
+              "Частота измеряется в Герцах (Гц) и равна числу колебаний в секунду.",
+              "Скорость звука в воздухе при 20°C составляет примерно 343 м/с."
+            ]
+          }
+        ]
+      },
+      oge: {
+        title: "Пробные задания ОГЭ",
+        topics: [
+          {
+            id: "oge1",
+            name: "Демонстрационный вариант",
+            desc: "Официальные задания ОГЭ по физике",
+            slides: [
+              "ОГЭ по физике включает задания по всем разделам курса.",
+              "Экзамен состоит из двух частей: с кратким и развернутым ответом.",
+              "На выполнение работы отводится 180 минут."
+            ]
+          }
+        ]
+      }
+    };
+
+    // === ГЕНЕРАТОР ЗАДАЧ ("НЕЙРОСЕТЬ") ===
+    function generateTasks(topicId) {
+      const tasks = [];
+
+      if (topicId === "mechanics") {
+        const v = Math.floor(Math.random() * 10) + 3; // 3–12 м/с
+        const t = Math.floor(Math.random() * 15) + 5; // 5–19 с
+        const s = v * t;
+        const options = [s - v, s, s + v, s + 2 * v].sort(() => 0.5 - Math.random());
+        const correctIndex = options.indexOf(s);
+        tasks.push({
+          q: `Тело движется со скоростью ${v} м/с. Какой путь оно пройдёт за ${t} секунд?`,
+          opts: options.map(val => `${val} м`),
+          ans: correctIndex
+        });
+
+        const m = Math.floor(Math.random() * 8) + 2; // 2–9 кг
+        const g = 10;
+        const F = m * g;
+        const opts2 = [F - 5, F, F + 5, F + 10].sort(() => 0.5 - Math.random());
+        const ans2 = opts2.indexOf(F);
+        tasks.push({
+          q: `Чему равна сила тяжести, действующая на тело массой ${m} кг?`,
+          opts: opts2.map(val => `${val} Н`),
+          ans: ans2
+        });
+      }
+
+      if (topicId === "pressure") {
+        const F = Math.floor(Math.random() * 200) + 50; // 50–249 Н
+        const S = Math.floor(Math.random() * 4) + 1;   // 1–4 м²
+        const P = Math.round(F / S);
+        const opts = [P - 10, P, P + 10, P + 20].sort(() => 0.5 - Math.random());
+        const correctIndex = opts.indexOf(P);
+        tasks.push({
+          q: `Какое давление оказывает сила ${F} Н на площадь ${S} м²?`,
+          opts: opts.map(val => `${val} Па`),
+          ans: correctIndex
+        });
+      }
+
+      if (topicId === "thermal") {
+        tasks.push({
+          q: "Какой способ теплопередачи осуществляется в вакууме?",
+          opts: ["Теплопроводность", "Конвекция", "Излучение", "Все способы"],
+          ans: 2
+        });
+      }
+
+      if (topicId === "electricity") {
+        const U = Math.floor(Math.random() * 20) + 5; // 5–24 В
+        const R = Math.floor(Math.random() * 10) + 2; // 2–11 Ом
+        const I = (U / R).toFixed(1);
+        const opts = [parseFloat(I) - 0.5, parseFloat(I), parseFloat(I) + 0.5, parseFloat(I) + 1]
+          .map(x => x.toFixed(1))
+          .sort(() => 0.5 - Math.random());
+        const correctIndex = opts.indexOf(I);
+        tasks.push({
+          q: `Напряжение на участке цепи ${U} В, сопротивление ${R} Ом. Чему равна сила тока?`,
+          opts: opts.map(val => `${val} А`),
+          ans: correctIndex
+        });
+      }
+
+      if (topicId === "mechanics9") {
+        const m = Math.floor(Math.random() * 6) + 2; // 2–7 кг
+        const v = Math.floor(Math.random() * 8) + 3; // 3–10 м/с
+        const p = m * v;
+        const opts = [p - 3, p, p + 3, p + 6].sort(() => 0.5 - Math.random());
+        const correctIndex = opts.indexOf(p);
+        tasks.push({
+          q: `Тело массой ${m} кг движется со скоростью ${v} м/с. Чему равен его импульс?`,
+          opts: opts.map(val => `${val} кг·м/с`),
+          ans: correctIndex
+        });
+      }
+
+      if (topicId === "waves") {
+        const f = Math.floor(Math.random() * 80) + 20; // 20–99 Гц
+        const T = (1 / f).toFixed(2);
+        const opts = [
+          (parseFloat(T) - 0.01).toFixed(2),
+          T,
+          (parseFloat(T) + 0.01).toFixed(2),
+          (parseFloat(T) + 0.02).toFixed(2)
+        ].sort(() => 0.5 - Math.random());
+        const correctIndex = opts.indexOf(T);
+        tasks.push({
+          q: `Чему равен период колебаний, если частота ${f} Гц?`,
+          opts: opts.map(val => `${val} с`),
+          ans: correctIndex
+        });
+      }
+
+      if (topicId === "oge1") {
+        tasks.push({
+          q: "Автомобиль движется по прямой улице. На графике представлена зависимость его скорости от времени. Чему равен модуль ускорения автомобиля на интервале времени от 10 с до 20 с?",
+          opts: ["1 м/с²", "2 м/с²", "3 м/с²", "4 м/с²"],
+          ans: 0
+        });
+        tasks.push({
+          q: "Легковой автомобиль и грузовик движутся со скоростями 108 км/ч и 54 км/ч соответственно. Масса легкового автомобиля 1000 кг. Какова масса грузовика, если отношение импульса грузовика к импульсу легкового автомобиля равно 1,5?",
+          opts: ["2000 кг", "2500 кг", "3000 кг", "3500 кг"],
+          ans: 2
+        });
+      }
+
+      return tasks.length > 0 ? tasks : [{
+        q: "Задачи по этой теме временно недоступны.",
+        opts: ["Понятно"],
+        ans: 0
+      }];
+    }
+
+    let currentTopic = null;
+    let currentSlide = 0;
+    let userAnswers = {};
+
+    function renderTopics(tabKey) {
+      const container = document.getElementById('topics-container');
+      const sectionTitle = document.getElementById('section-title');
+      const data = topicsData[tabKey];
+      sectionTitle.textContent = data.title;
+      container.innerHTML = '';
+      data.topics.forEach(topic => {
+        const card = document.createElement('div');
+        card.className = 'topic-card';
+        card.innerHTML = `
+          <div class="topic-header">
+            <div class="topic-info">
+              <h3>${topic.name}</h3>
+              <p>${topic.desc}</p>
+            </div>
+            <button class="start-link" data-topic="${topic.id}">Начать обучение</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      document.querySelectorAll('.start-link').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const topicId = e.target.dataset.topic;
+          openPresentation(topicId, tabKey);
+        });
+      });
+    }
+
+    function openPresentation(topicId, tabKey) {
+      const originalTopic = topicsData[tabKey].topics.find(t => t.id === topicId);
+      currentTopic = JSON.parse(JSON.stringify(originalTopic));
+      currentTopic.tasks = generateTasks(topicId); // ← НЕЙРОСЕТЬ ГЕНЕРИРУЕТ ЗАДАЧИ!
+      currentSlide = 0;
+      userAnswers = {};
+      renderModalContent();
+      document.getElementById('presentation-modal').classList.add('active');
+    }
+
+    function renderModalContent() {
+      const modalTitle = document.getElementById('modal-topic-title');
+      const modalBody = document.getElementById('modal-body');
+      modalTitle.textContent = currentTopic.name;
+      if (currentSlide < currentTopic.slides.length) {
+        modalBody.innerHTML = `
+          <div class="slide-text">${currentTopic.slides[currentSlide]}</div>
+          <div class="modal-actions">
+            ${currentSlide > 0 ? '<button class="modal-btn prev-btn" id="prev-slide">Назад</button>' : ''}
+            <button class="modal-btn next-btn" id="next-slide">
+              ${currentSlide === currentTopic.slides.length - 1 ? 'Задачи' : 'Далее'}
+            </button>
+          </div>
+        `;
+      } else {
+        let tasksHtml = '';
+        currentTopic.tasks.forEach((task, idx) => {
+          const score = userAnswers[idx] !== undefined && userAnswers[idx] === task.ans ? 5 : 0;
+          tasksHtml += `
+            <div style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #eee;">
+              <div class="task-question">${task.q}</div>
+              <div class="task-options" id="task-${idx}-options">
+                ${task.opts.map((opt, i) => `
+                  <label class="task-option">
+                    <input type="radio" name="task-${idx}" value="${i}" ${userAnswers[idx] === i ? 'checked' : ''}>
+                    ${opt}
+                  </label>
+                `).join('')}
+              </div>
+              ${score > 0 ? `<div class="score-badge"><i class="fas fa-award"></i> +${score} баллов</div>` : ''}
+            </div>
+          `;
+        });
+        modalBody.innerHTML = tasksHtml + `
+          <div class="modal-actions">
+            <button class="modal-btn check-btn" id="check-answers">Проверить</button>
+          </div>
+        `;
+        currentTopic.tasks.forEach((task, idx) => {
+          document.querySelectorAll(`input[name="task-${idx}"]`).forEach(radio => {
+            radio.addEventListener('change', (e) => {
+              userAnswers[idx] = parseInt(e.target.value);
+            });
+          });
+        });
+      }
+      document.getElementById('prev-slide')?.addEventListener('click', () => {
+        currentSlide--;
+        renderModalContent();
+      });
+      document.getElementById('next-slide')?.addEventListener('click', () => {
+        currentSlide++;
+        renderModalContent();
+      });
+      document.getElementById('check-answers')?.addEventListener('click', () => {
+        renderModalContent();
+      });
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        renderTopics(tab);
+      });
+    });
+
+    document.getElementById('close-modal').addEventListener('click', () => {
+      document.getElementById('presentation-modal').classList.remove('active');
+    });
+
+    renderTopics('physics7');
+  </script>
+</body>
+</html>
