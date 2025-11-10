@@ -4,25 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Физика Онлайн</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css  ">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- MathJax для красивых формул -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
   <style>
     :root {
       --bg: #000;
-      --bg-gradient: linear-gradient(135deg, #111827, #000000, #111827);
+      --bg-gradient: linear-gradient(135deg, #0f0f1b, #000000, #0f0f1b);
       --text: #fff;
-      --text-secondary: #9ca3af;
-      --border: rgba(255,255,255,0.1);
-      --card-bg: rgba(255,255,255,0.05);
-      --card-hover: rgba(255,255,255,0.1);
-      --button-border: rgba(255,255,255,0.3);
-      --button-hover: rgba(255,255,255,0.1);
+      --text-secondary: #a0a0c0;
+      --border: rgba(255, 255, 255, 0.08);
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --card-hover: rgba(255, 255, 255, 0.12);
+      --button-border: rgba(255, 255, 255, 0.25);
+      --button-hover: rgba(255, 255, 255, 0.12);
+      --glow-blue: rgba(96, 165, 250, 0.3);
+      --glow-purple: rgba(168, 85, 247, 0.2);
     }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
+
     body {
       background: var(--bg-gradient);
       color: var(--text);
@@ -32,276 +53,429 @@
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
+      overflow-x: hidden;
     }
+
     header {
       position: sticky;
       top: 0;
       z-index: 40;
       border-bottom: 1px solid var(--border);
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(12px);
+      background: rgba(10, 10, 20, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 4px 30px var(--glow-blue);
     }
+
     .header-content {
       max-width: 800px;
       margin: 0 auto;
       padding: 24px 16px;
       text-align: center;
     }
+
     .avatar {
       width: 80px;
       height: 80px;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      box-shadow:
+        0 0 0 2px rgba(255, 255, 255, 0.1),
+        0 8px 24px var(--glow-blue);
       margin: 0 auto 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
     }
+
     .avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     h1 {
       font-size: 1.5rem;
       font-weight: 700;
       margin-bottom: 8px;
+      text-shadow: 0 0 10px var(--glow-blue);
     }
-    .telegram-info {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-    .telegram-info a {
-      color: #60a5fa;
-      text-decoration: underline;
-    }
+
     nav {
       border-bottom: 1px solid var(--border);
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(8px);
+      background: rgba(10, 10, 20, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       padding: 12px 0;
+      box-shadow: 0 2px 16px var(--glow-purple);
     }
+
     .nav-tabs {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: 6px;
       max-width: 800px;
       margin: 0 auto;
       padding: 0 16px;
     }
+
     .tab-btn {
-      padding: 12px 16px;
+      padding: 12px 20px;
       font-size: 0.875rem;
-      font-weight: 500;
-      background: transparent;
+      font-weight: 600;
+      background: rgba(30, 30, 50, 0.4);
       border: 1px solid var(--button-border);
-      border-radius: 12px;
+      border-radius: 14px;
       color: var(--text-secondary);
       cursor: pointer;
       transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
+
     .tab-btn:hover {
       background: var(--button-hover);
       color: var(--text);
+      border-color: rgba(96, 165, 250, 0.6);
+      box-shadow: 0 6px 16px var(--glow-blue);
     }
+
     .tab-btn.active {
-      background: var(--card-hover);
-      color: var(--text);
+      background: rgba(96, 165, 250, 0.15);
+      color: white;
+      border-color: rgba(96, 165, 250, 0.8);
+      box-shadow: 0 0 16px var(--glow-blue);
     }
+
     main {
       max-width: 800px;
       margin: 32px auto 0;
       padding: 0 16px;
     }
+
     .section-title {
       text-align: center;
       font-size: 1.875rem;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 8px;
+      background: linear-gradient(90deg, #60a5fa, #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
     }
+
     .section-desc {
       text-align: center;
       color: var(--text-secondary);
       margin-bottom: 32px;
     }
+
     .topic-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 24px;
       margin-bottom: 24px;
-      transition: background 0.3s ease;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
     }
+
     .topic-card:hover {
       background: var(--card-hover);
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 30px var(--glow-blue),
+        0 0 0 1px rgba(96, 165, 250, 0.3);
     }
+
     .topic-header {
       display: flex;
       justify-content: space-between;
       align-items: start;
       margin-bottom: 16px;
     }
+
     .topic-info h3 {
       font-size: 1.25rem;
       margin-bottom: 4px;
+      color: #e0e0ff;
     }
+
     .topic-info p {
       color: var(--text-secondary);
       font-size: 0.95rem;
     }
+
     .start-link {
       color: #60a5fa;
       text-decoration: underline;
       cursor: pointer;
       background: none;
       border: none;
-      font-weight: 500;
+      font-weight: 600;
       padding: 0;
       font-size: inherit;
-      transition: color 0.2s;
+      transition: all 0.2s;
+      text-shadow: 0 0 6px rgba(96, 165, 250, 0.5);
     }
+
     .start-link:hover {
       color: #3b82f6;
+      text-shadow: 0 0 10px rgba(96, 165, 250, 0.8);
     }
+
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 100;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
     }
+
     .modal.active {
       opacity: 1;
       visibility: visible;
     }
+
     .modal-content {
-      background: white;
-      border-radius: 16px;
+      background: rgba(15, 15, 30, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
       width: 90%;
       max-width: 600px;
-      max-height: 80vh;
+      max-height: 85vh;
       overflow: auto;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(96, 165, 250, 0.2),
+        0 0 30px var(--glow-blue);
+      color: white;
     }
+
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 24px 24px 16px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
+
     .modal-title {
       font-size: 1.5rem;
       font-weight: 700;
-      color: #000;
+      color: white;
+      background: linear-gradient(90deg, #60a5fa, #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
+
     .close-btn {
-      background: none;
-      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
       font-size: 1.25rem;
       cursor: pointer;
-      color: #666;
+      color: #aaa;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
     }
+
+    .close-btn:hover {
+      background: rgba(96, 165, 250, 0.2);
+      color: white;
+      border-color: rgba(96, 165, 250, 0.5);
+      box-shadow: 0 0 12px var(--glow-blue);
+    }
+
     .modal-body {
       padding: 24px;
       text-align: center;
     }
+
     .slide-text {
       font-size: 1.125rem;
-      color: #333;
-      line-height: 1.6;
+      color: #e0e0ff;
+      line-height: 1.7;
       margin-bottom: 32px;
+      text-shadow: 0 0 6px rgba(168, 85, 247, 0.2);
     }
+
     .task-question {
       font-size: 1.125rem;
       font-weight: 600;
-      color: #000;
+      color: #d0d0ff;
       margin-bottom: 16px;
     }
+
     .task-options {
       text-align: left;
       margin-bottom: 20px;
     }
+
     .task-option {
       display: block;
-      margin: 8px 0;
-      padding: 10px;
-      background: #f8f9fa;
-      border-radius: 8px;
+      margin: 10px 0;
+      padding: 12px;
+      background: rgba(30, 30, 50, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
       cursor: pointer;
-      transition: background 0.2s;
-      color: #000;
+      transition: all 0.25s ease;
+      color: #e0e0ff;
+      backdrop-filter: blur(6px);
     }
+
     .task-option:hover {
-      background: #e9ecef;
+      background: rgba(96, 165, 250, 0.15);
+      border-color: rgba(96, 165, 250, 0.4);
+      box-shadow: 0 0 10px var(--glow-blue);
     }
+
     .task-option input {
       margin-right: 10px;
+      accent-color: #60a5fa;
     }
+
     .modal-actions {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
       margin-top: 16px;
     }
+
     .modal-btn {
-      padding: 10px 20px;
+      padding: 11px 22px;
       border: none;
-      border-radius: 12px;
+      border-radius: 14px;
       font-weight: 600;
       cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
     }
+
     .prev-btn {
-      background: #f1f3f4;
-      color: #333;
+      background: rgba(240, 240, 250, 0.1);
+      color: #ccc;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
-    .next-btn, .check-btn {
-      background: #000;
+
+    .prev-btn:hover {
+      background: rgba(96, 165, 250, 0.15);
       color: white;
+      border-color: rgba(96, 165, 250, 0.5);
     }
+
+    .next-btn,
+    .check-btn {
+      background: linear-gradient(135deg, #4f46e5, #60a5fa);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 16px rgba(96, 165, 250, 0.4);
+    }
+
+    .next-btn:hover,
+    .check-btn:hover {
+      box-shadow: 0 6px 20px rgba(96, 165, 250, 0.6);
+      transform: translateY(-1px);
+    }
+
     .score-badge {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #16a34a;
+      color: #34d399;
       font-weight: 600;
       margin-top: 12px;
+      text-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
     }
+
+    .next-topic-btn {
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4);
+    }
+
+    .next-topic-btn:hover {
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .restart-btn {
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+    }
+
+    .restart-btn:hover {
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+      transform: translateY(-1px);
+    }
+
     footer {
       text-align: center;
       padding: 32px 16px 16px;
       color: var(--text-secondary);
       border-top: 1px solid var(--border);
       margin-top: 48px;
+      backdrop-filter: blur(8px);
     }
+
     @media (max-width: 640px) {
       .modal-content {
         width: 95%;
+        border-radius: 16px;
       }
       h1 {
         font-size: 1.3rem;
+      }
+      .tab-btn {
+        padding: 10px 14px;
+        font-size: 0.8rem;
       }
     }
   </style>
 </head>
 <body>
   <header>
+    <!-- Иконка Telegram в правом верхнем углу -->
+    <div style="position: absolute; top: 16px; right: 16px; display: flex; align-items: center; gap: 8px; z-index: 50;">
+      <a href="https://t.me/panikgenesis" target="_blank" style="color: #60a5fa; font-size: 1.2rem; text-decoration: none;">
+        <i class="fab fa-telegram"></i>
+      </a>
+      <span style="font-size: 0.9rem; color: var(--text-secondary);">Мы в соцсетях</span>
+    </div>
+
     <div class="header-content">
       <div class="avatar">
-        <img src="https://i.imgur.com/7QYJdZr.png  " alt="Аватар">
+        <img src="https://i.imgur.com/7QYJdZr.png" alt="Аватар">
       </div>
       <h1>Физика Онлайн</h1>
-      <p class="telegram-info">
-        Чат в Telegram для решения сложных задач и помощь в решении<br>
-        <a href="https://t.me/genesischats  " target="_blank">https://t.me/genesischats  </a>
-      </p>
     </div>
   </header>
+
   <nav>
     <div class="nav-tabs">
       <button class="tab-btn active" data-tab="physics7">Физика 7 класс</button>
@@ -310,27 +484,27 @@
       <button class="tab-btn" data-tab="oge">Пробные задания ОГЭ</button>
     </div>
   </nav>
+
   <main>
     <h2 class="section-title" id="section-title">Физика 7 класс</h2>
     <p class="section-desc">Изучайте физику с интерактивными презентациями и проверяйте знания на практике</p>
-    <div id="topics-container">
-      <!-- Topics will be inserted here by JS -->
-    </div>
+    <div id="topics-container"></div>
   </main>
+
   <div class="modal" id="presentation-modal">
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title" id="modal-topic-title">Тема</h3>
         <button class="close-btn" id="close-modal">&times;</button>
       </div>
-      <div class="modal-body" id="modal-body">
-        <!-- Content will be inserted by JS -->
-      </div>
+      <div class="modal-body" id="modal-body"></div>
     </div>
   </div>
+
   <footer>
     <p>© 2025 Физика Онлайн. Все права защищены.</p>
   </footer>
+
   <script>
     // === БЛОКИРОВКА КОПИРОВАНИЯ ===
     document.addEventListener('contextmenu', e => e.preventDefault());
@@ -346,7 +520,11 @@
       }
     });
 
-    // === ДАННЫЕ ТЕМ (БЕЗ ЗАДАЧ — они генерируются динамически) ===
+    let currentTopic = null;
+    let currentSlide = 0;
+    let userAnswers = {};
+    let currentTabKey = 'physics7';
+
     const topicsData = {
       physics7: {
         title: "Физика 7 класс",
@@ -356,20 +534,53 @@
             name: "Механика",
             desc: "Движение, сила, давление",
             slides: [
-              "Механика изучает движение тел и причины этого движения.",
-              "Основные понятия: траектория, путь, скорость, ускорение.",
-              "Законы Ньютона описывают связь между силой и движением."
-            ]
+              "Механика — раздел физики, изучающий движение тел и взаимодействие между ними.",
+              "Основные разделы механики: кинематика, динамика и статика.",
+              "Механика включает законы Ньютона, законы сохранения и понятия инерции, импульса и энергии.",
+              "В повседневной жизни механика помогает понять, как работают механизмы и почему тела падают."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Основные формулы</h4>
+                <p><strong>Путь при равномерном движении:</strong></p>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( s = v \\cdot t \\)</p>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc;">
+                  <li>\\( s \\) — путь (м)</li>
+                  <li>\\( v \\) — скорость (м/с)</li>
+                  <li>\\( t \\) — время (с)</li>
+                </ul>
+                <p style="margin-top: 16px;"><strong>Сила тяжести:</strong></p>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( F = m \\cdot g \\)</p>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc;">
+                  <li>\\( F \\) — сила тяжести (Н)</li>
+                  <li>\\( m \\) — масса тела (кг)</li>
+                  <li>\\( g \\approx 10 \\, \\text{м/с}^2 \\) — ускорение свободного падения</li>
+                </ul>
+              </div>
+            `
           },
           {
             id: "pressure",
             name: "Давление",
             desc: "Давление твердых тел, жидкостей и газов",
             slides: [
-              "Давление — это физическая величина, равная отношению силы к площади.",
-              "Единица измерения давления — Паскаль (Па).",
-              "Давление в жидкостях и газах передается одинаково во всех направлениях."
-            ]
+              "Давление — это физическая величина, равная отношению силы к площади поверхности.",
+              "Единица измерения давления в системе СИ — Паскаль (Па), 1 Па = 1 Н/м².",
+              "Давление в жидкостях и газах передается одинаково во всех направлениях.",
+              "Атмосферное давление на уровне моря примерно 101325 Па."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Формулы давления</h4>
+                <p><strong>Давление твердого тела:</strong></p>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( p = \\frac{F}{S} \\)</p>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc;">
+                  <li>\\( p \\) — давление (Па)</li>
+                  <li>\\( F \\) — сила (Н)</li>
+                  <li>\\( S \\) — площадь (м²)</li>
+                </ul>
+              </div>
+            `
           }
         ]
       },
@@ -382,19 +593,44 @@
             desc: "Теплопередача, агрегатные состояния",
             slides: [
               "Теплопередача происходит тремя способами: теплопроводность, конвекция, излучение.",
-              "Количество теплоты измеряется в Джоулях (Дж).",
-              "Удельная теплоемкость показывает, сколько теплоты нужно для нагревания 1 кг вещества."
-            ]
+              "Количество теплоты зависит от массы, удельной теплоемкости и изменения температуры.",
+              "Удельная теплоемкость — количество теплоты для нагрева 1 кг вещества на 1°C.",
+              "Переходы между агрегатными состояниями сопровождаются поглощением или выделением теплоты."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Количество теплоты</h4>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( Q = c \\cdot m \\cdot \\Delta t \\)</p>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc;">
+                  <li>\\( Q \\) — количество теплоты (Дж)</li>
+                  <li>\\( c \\) — удельная теплоёмкость (Дж/(кг·°C))</li>
+                  <li>\\( m \\) — масса (кг)</li>
+                  <li>\\( \\Delta t \\) — изменение температуры (°C)</li>
+                </ul>
+              </div>
+            `
           },
           {
             id: "electricity",
             name: "Электричество",
             desc: "Электрические заряды, ток, напряжение",
             slides: [
-              "Электрический ток — это упорядоченное движение заряженных частиц.",
+              "Электрический ток — упорядоченное движение заряженных частиц.",
               "Сила тока измеряется в Амперах (А), напряжение — в Вольтах (В).",
-              "Закон Ома: сила тока прямо пропорциональна напряжению и обратно пропорциональна сопротивлению."
-            ]
+              "Закон Ома: сила тока прямо пропорциональна напряжению и обратно пропорциональна сопротивлению.",
+              "Электрическая цепь состоит из источника тока, проводников и потребителей."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Закон Ома</h4>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( I = \\frac{U}{R} \\)</p>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc;">
+                  <li>\\( I \\) — сила тока (А)</li>
+                  <li>\\( U \\) — напряжение (В)</li>
+                  <li>\\( R \\) — сопротивление (Ом)</li>
+                </ul>
+              </div>
+            `
           }
         ]
       },
@@ -408,8 +644,20 @@
             slides: [
               "Равноускоренное движение характеризуется постоянным ускорением.",
               "Импульс тела равен произведению массы на скорость.",
-              "Закон сохранения импульса: суммарный импульс замкнутой системы остается постоянным."
-            ]
+              "Закон сохранения импульса: суммарный импульс замкнутой системы постоянен.",
+              "Полная механическая энергия сохраняется при отсутствии внешних сил."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Импульс тела</h4>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( p = m \\cdot v \\)</p>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc;">
+                  <li>\\( p \\) — импульс (кг·м/с)</li>
+                  <li>\\( m \\) — масса тела (кг)</li>
+                  <li>\\( v \\) — скорость (м/с)</li>
+                </ul>
+              </div>
+            `
           },
           {
             id: "waves",
@@ -418,8 +666,19 @@
             slides: [
               "Период колебаний — время одного полного колебания.",
               "Частота измеряется в Герцах (Гц) и равна числу колебаний в секунду.",
-              "Скорость звука в воздухе при 20°C составляет примерно 343 м/с."
-            ]
+              "Скорость звука в воздухе при 20°C — примерно 343 м/с.",
+              "Длина волны связана с частотой: \\( \\lambda = \\frac{v}{f} \\)."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Связь периода и частоты</h4>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( T = \\frac{1}{\\nu} \\)</p>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc;">
+                  <li>\\( T \\) — период колебаний (с)</li>
+                  <li>\\( \\nu \\) — частота колебаний (Гц)</li>
+                </ul>
+              </div>
+            `
           }
         ]
       },
@@ -433,20 +692,32 @@
             slides: [
               "ОГЭ по физике включает задания по всем разделам курса.",
               "Экзамен состоит из двух частей: с кратким и развернутым ответом.",
-              "На выполнение работы отводится 180 минут."
-            ]
+              "На выполнение работы отводится 180 минут.",
+              "Для успешной сдачи нужно набрать минимум 10 баллов из 40."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Ключевые формулы</h4>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc; line-height: 1.6;">
+                  <li>Кинематика: \\( v = v_0 + at \\), \\( s = v_0 t + \\frac{at^2}{2} \\)</li>
+                  <li>Динамика: \\( F = ma \\), \\( p = mv \\)</li>
+                  <li>Теплота: \\( Q = cm\\Delta t \\)</li>
+                  <li>Электричество: \\( I = \\frac{U}{R} \\)</li>
+                  <li>Волны: \\( T = \\frac{1}{f} \\)</li>
+                </ul>
+              </div>
+            `
           }
         ]
       }
     };
 
-    // === ГЕНЕРАТОР ЗАДАЧ ("НЕЙРОСЕТЬ") ===
     function generateTasks(topicId) {
       const tasks = [];
 
       if (topicId === "mechanics") {
-        const v = Math.floor(Math.random() * 10) + 3; // 3–12 м/с
-        const t = Math.floor(Math.random() * 15) + 5; // 5–19 с
+        const v = Math.floor(Math.random() * 10) + 3;
+        const t = Math.floor(Math.random() * 15) + 5;
         const s = v * t;
         const options = [s - v, s, s + v, s + 2 * v].sort(() => 0.5 - Math.random());
         const correctIndex = options.indexOf(s);
@@ -456,7 +727,7 @@
           ans: correctIndex
         });
 
-        const m = Math.floor(Math.random() * 8) + 2; // 2–9 кг
+        const m = Math.floor(Math.random() * 8) + 2;
         const g = 10;
         const F = m * g;
         const opts2 = [F - 5, F, F + 5, F + 10].sort(() => 0.5 - Math.random());
@@ -469,8 +740,8 @@
       }
 
       if (topicId === "pressure") {
-        const F = Math.floor(Math.random() * 200) + 50; // 50–249 Н
-        const S = Math.floor(Math.random() * 4) + 1;   // 1–4 м²
+        const F = Math.floor(Math.random() * 200) + 50;
+        const S = Math.floor(Math.random() * 4) + 1;
         const P = Math.round(F / S);
         const opts = [P - 10, P, P + 10, P + 20].sort(() => 0.5 - Math.random());
         const correctIndex = opts.indexOf(P);
@@ -490,8 +761,8 @@
       }
 
       if (topicId === "electricity") {
-        const U = Math.floor(Math.random() * 20) + 5; // 5–24 В
-        const R = Math.floor(Math.random() * 10) + 2; // 2–11 Ом
+        const U = Math.floor(Math.random() * 20) + 5;
+        const R = Math.floor(Math.random() * 10) + 2;
         const I = (U / R).toFixed(1);
         const opts = [parseFloat(I) - 0.5, parseFloat(I), parseFloat(I) + 0.5, parseFloat(I) + 1]
           .map(x => x.toFixed(1))
@@ -505,8 +776,8 @@
       }
 
       if (topicId === "mechanics9") {
-        const m = Math.floor(Math.random() * 6) + 2; // 2–7 кг
-        const v = Math.floor(Math.random() * 8) + 3; // 3–10 м/с
+        const m = Math.floor(Math.random() * 6) + 2;
+        const v = Math.floor(Math.random() * 8) + 3;
         const p = m * v;
         const opts = [p - 3, p, p + 3, p + 6].sort(() => 0.5 - Math.random());
         const correctIndex = opts.indexOf(p);
@@ -518,7 +789,7 @@
       }
 
       if (topicId === "waves") {
-        const f = Math.floor(Math.random() * 80) + 20; // 20–99 Гц
+        const f = Math.floor(Math.random() * 80) + 20;
         const T = (1 / f).toFixed(2);
         const opts = [
           (parseFloat(T) - 0.01).toFixed(2),
@@ -554,10 +825,6 @@
       }];
     }
 
-    let currentTopic = null;
-    let currentSlide = 0;
-    let userAnswers = {};
-
     function renderTopics(tabKey) {
       const container = document.getElementById('topics-container');
       const sectionTitle = document.getElementById('section-title');
@@ -587,35 +854,50 @@
     }
 
     function openPresentation(topicId, tabKey) {
+      currentTabKey = tabKey;
       const originalTopic = topicsData[tabKey].topics.find(t => t.id === topicId);
       currentTopic = JSON.parse(JSON.stringify(originalTopic));
-      currentTopic.tasks = generateTasks(topicId); // ← НЕЙРОСЕТЬ ГЕНЕРИРУЕТ ЗАДАЧИ!
+      currentTopic.tasks = generateTasks(topicId);
       currentSlide = 0;
       userAnswers = {};
       renderModalContent();
       document.getElementById('presentation-modal').classList.add('active');
     }
 
+    // 🔥 КЛЮЧЕВАЯ ФУНКЦИЯ: рендеринг формул после вставки
+    function renderMath() {
+      if (typeof MathJax !== 'undefined' && MathJax.typeset) {
+        MathJax.typeset();
+      }
+    }
+
     function renderModalContent() {
       const modalTitle = document.getElementById('modal-topic-title');
       const modalBody = document.getElementById('modal-body');
       modalTitle.textContent = currentTopic.name;
+
       if (currentSlide < currentTopic.slides.length) {
         modalBody.innerHTML = `
           <div class="slide-text">${currentTopic.slides[currentSlide]}</div>
           <div class="modal-actions">
             ${currentSlide > 0 ? '<button class="modal-btn prev-btn" id="prev-slide">Назад</button>' : ''}
             <button class="modal-btn next-btn" id="next-slide">
-              ${currentSlide === currentTopic.slides.length - 1 ? 'Задачи' : 'Далее'}
+              ${currentSlide === currentTopic.slides.length - 1 ? 'Формулы и задачи' : 'Далее'}
             </button>
           </div>
         `;
+        renderMath(); // ← рендерим формулы
       } else {
         let tasksHtml = '';
+
+        if (currentTopic.formulaInfo) {
+          tasksHtml += currentTopic.formulaInfo;
+        }
+
         currentTopic.tasks.forEach((task, idx) => {
           const score = userAnswers[idx] !== undefined && userAnswers[idx] === task.ans ? 5 : 0;
           tasksHtml += `
-            <div style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #eee;">
+            <div style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.05);">
               <div class="task-question">${task.q}</div>
               <div class="task-options" id="task-${idx}-options">
                 ${task.opts.map((opt, i) => `
@@ -629,19 +911,30 @@
             </div>
           `;
         });
+
+        let nextButton = '';
+        const currentTabIndex = topicsData[currentTabKey].topics.findIndex(t => t.id === currentTopic.id);
+        if (currentTabIndex < topicsData[currentTabKey].topics.length - 1) {
+          const nextTopic = topicsData[currentTabKey].topics[currentTabIndex + 1];
+          nextButton = `<button class="modal-btn next-topic-btn" id="next-topic">Далее: ${nextTopic.name}</button>`;
+        } else {
+          nextButton = `<button class="modal-btn restart-btn" id="restart-topic">Начать заново</button>`;
+        }
+
+        let actionButton = `<button class="modal-btn check-btn" id="check-answers">Проверить</button>`;
+        if (Object.keys(userAnswers).length === currentTopic.tasks.length) {
+          actionButton = nextButton;
+        }
+
         modalBody.innerHTML = tasksHtml + `
           <div class="modal-actions">
-            <button class="modal-btn check-btn" id="check-answers">Проверить</button>
+            ${actionButton}
           </div>
         `;
-        currentTopic.tasks.forEach((task, idx) => {
-          document.querySelectorAll(`input[name="task-${idx}"]`).forEach(radio => {
-            radio.addEventListener('change', (e) => {
-              userAnswers[idx] = parseInt(e.target.value);
-            });
-          });
-        });
+        renderMath(); // ← рендерим формулы
       }
+
+      // Обработчики кнопок
       document.getElementById('prev-slide')?.addEventListener('click', () => {
         currentSlide--;
         renderModalContent();
@@ -651,6 +944,15 @@
         renderModalContent();
       });
       document.getElementById('check-answers')?.addEventListener('click', () => {
+        renderModalContent();
+      });
+      document.getElementById('next-topic')?.addEventListener('click', () => {
+        const nextTopicId = topicsData[currentTabKey].topics[currentTabIndex + 1].id;
+        openPresentation(nextTopicId, currentTabKey);
+      });
+      document.getElementById('restart-topic')?.addEventListener('click', () => {
+        currentSlide = 0;
+        userAnswers = {};
         renderModalContent();
       });
     }
