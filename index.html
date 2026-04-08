@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Физика Онлайн</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css ">
   <!-- MathJax для красивых формул -->
   <script>
     window.MathJax = {
@@ -18,9 +18,9 @@
       }
     };
   </script>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6 "></script>
   <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js ">
   </script>
   <style>
     :root {
@@ -462,7 +462,7 @@
   <header>
     <!-- Иконка Telegram в правом верхнем углу -->
     <div style="position: absolute; top: 16px; right: 16px; display: flex; align-items: center; gap: 8px; z-index: 50;">
-      <a href="https://t.me/panikgenesis" target="_blank" style="color: #60a5fa; font-size: 1.2rem; text-decoration: none;">
+      <a href="https://t.me/panikgenesis " target="_blank" style="color: #60a5fa; font-size: 1.2rem; text-decoration: none;">
         <i class="fab fa-telegram"></i>
       </a>
       <span style="font-size: 0.9rem; color: var(--text-secondary);">Мы в соцсетях</span>
@@ -470,7 +470,7 @@
 
     <div class="header-content">
       <div class="avatar">
-        <img src="https://i.imgur.com/7QYJdZr.png" alt="Аватар">
+        <img src="https://i.imgur.com/7QYJdZr.png " alt="Аватар">
       </div>
       <h1>Физика Онлайн</h1>
     </div>
@@ -524,6 +524,7 @@
     let currentSlide = 0;
     let userAnswers = {};
     let currentTabKey = 'physics7';
+    let isTopicVerified = false; // Флаг проверки ответов
 
     const topicsData = {
       physics7: {
@@ -860,11 +861,11 @@
       currentTopic.tasks = generateTasks(topicId);
       currentSlide = 0;
       userAnswers = {};
+      isTopicVerified = false;
       renderModalContent();
       document.getElementById('presentation-modal').classList.add('active');
     }
 
-    // 🔥 КЛЮЧЕВАЯ ФУНКЦИЯ: рендеринг формул после вставки
     function renderMath() {
       if (typeof MathJax !== 'undefined' && MathJax.typeset) {
         MathJax.typeset();
@@ -886,7 +887,7 @@
             </button>
           </div>
         `;
-        renderMath(); // ← рендерим формулы
+        renderMath();
       } else {
         let tasksHtml = '';
 
@@ -921,9 +922,11 @@
           nextButton = `<button class="modal-btn restart-btn" id="restart-topic">Начать заново</button>`;
         }
 
-        let actionButton = `<button class="modal-btn check-btn" id="check-answers">Проверить</button>`;
-        if (Object.keys(userAnswers).length === currentTopic.tasks.length) {
+        let actionButton;
+        if (isTopicVerified) {
           actionButton = nextButton;
+        } else {
+          actionButton = `<button class="modal-btn check-btn" id="check-answers">Проверить ответы</button>`;
         }
 
         modalBody.innerHTML = tasksHtml + `
@@ -931,7 +934,18 @@
             ${actionButton}
           </div>
         `;
-        renderMath(); // ← рендерим формулы
+        renderMath();
+
+        // Добавляем слушатель на изменения радио-кнопок, чтобы сохранять ответы
+        const radioInputs = modalBody.querySelectorAll('input[type="radio"]');
+        radioInputs.forEach(input => {
+            input.addEventListener('change', (e) => {
+                const name = e.target.name; // task-0, task-1...
+                const index = parseInt(name.split('-')[1]);
+                const value = parseInt(e.target.value);
+                userAnswers[index] = value;
+            });
+        });
       }
 
       // Обработчики кнопок
@@ -939,20 +953,27 @@
         currentSlide--;
         renderModalContent();
       });
+      
       document.getElementById('next-slide')?.addEventListener('click', () => {
         currentSlide++;
         renderModalContent();
       });
+      
       document.getElementById('check-answers')?.addEventListener('click', () => {
+        isTopicVerified = true;
         renderModalContent();
       });
+      
       document.getElementById('next-topic')?.addEventListener('click', () => {
+        const currentTabIndex = topicsData[currentTabKey].topics.findIndex(t => t.id === currentTopic.id);
         const nextTopicId = topicsData[currentTabKey].topics[currentTabIndex + 1].id;
         openPresentation(nextTopicId, currentTabKey);
       });
+      
       document.getElementById('restart-topic')?.addEventListener('click', () => {
         currentSlide = 0;
         userAnswers = {};
+        isTopicVerified = false;
         renderModalContent();
       });
     }
@@ -968,6 +989,7 @@
 
     document.getElementById('close-modal').addEventListener('click', () => {
       document.getElementById('presentation-modal').classList.remove('active');
+      isTopicVerified = false;
     });
 
     renderTopics('physics7');
