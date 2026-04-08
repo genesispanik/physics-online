@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Физика Онлайн</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css ">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <!-- MathJax для красивых формул -->
   <script>
     window.MathJax = {
@@ -18,9 +18,9 @@
       }
     };
   </script>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6 "></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js ">
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
   <style>
     :root {
@@ -462,7 +462,7 @@
   <header>
     <!-- Иконка Telegram в правом верхнем углу -->
     <div style="position: absolute; top: 16px; right: 16px; display: flex; align-items: center; gap: 8px; z-index: 50;">
-      <a href="https://t.me/panikgenesis " target="_blank" style="color: #60a5fa; font-size: 1.2rem; text-decoration: none;">
+      <a href="https://t.me/panikgenesis" target="_blank" style="color: #60a5fa; font-size: 1.2rem; text-decoration: none;">
         <i class="fab fa-telegram"></i>
       </a>
       <span style="font-size: 0.9rem; color: var(--text-secondary);">Мы в соцсетях</span>
@@ -470,7 +470,7 @@
 
     <div class="header-content">
       <div class="avatar">
-        <img src="https://i.imgur.com/7QYJdZr.png " alt="Аватар">
+        <img src="https://i.imgur.com/7QYJdZr.png" alt="Аватар">
       </div>
       <h1>Физика Онлайн</h1>
     </div>
@@ -524,7 +524,7 @@
     let currentSlide = 0;
     let userAnswers = {};
     let currentTabKey = 'physics7';
-    let isTopicVerified = false; // Флаг проверки ответов
+    let isTopicVerified = false; // Флаг: проверены ли ответы
 
     const topicsData = {
       physics7: {
@@ -717,38 +717,64 @@
       const tasks = [];
 
       if (topicId === "mechanics") {
-        const v = Math.floor(Math.random() * 10) + 3;
-        const t = Math.floor(Math.random() * 15) + 5;
+        // Увеличены диапазоны чисел для разнообразия
+        const v = Math.floor(Math.random() * 40) + 5; // 5-45 м/с
+        const t = Math.floor(Math.random() * 50) + 10; // 10-60 с
         const s = v * t;
-        const options = [s - v, s, s + v, s + 2 * v].sort(() => 0.5 - Math.random());
-        const correctIndex = options.indexOf(s);
+        
+        // Генерируем варианты ответов
+        let options = new Set();
+        options.add(s);
+        while(options.size < 4) {
+            let fake = s + (Math.floor(Math.random() * 20) - 10) * (Math.random() > 0.5 ? 1 : 10);
+            if(fake !== s && fake > 0) options.add(fake);
+        }
+        const optionsArr = Array.from(options).sort(() => 0.5 - Math.random());
+        const correctIndex = optionsArr.indexOf(s);
+
         tasks.push({
           q: `Тело движется со скоростью ${v} м/с. Какой путь оно пройдёт за ${t} секунд?`,
-          opts: options.map(val => `${val} м`),
+          opts: optionsArr.map(val => `${val} м`),
           ans: correctIndex
         });
 
-        const m = Math.floor(Math.random() * 8) + 2;
+        const m = Math.floor(Math.random() * 50) + 5; // 5-55 кг
         const g = 10;
         const F = m * g;
-        const opts2 = [F - 5, F, F + 5, F + 10].sort(() => 0.5 - Math.random());
-        const ans2 = opts2.indexOf(F);
+        
+        let opts2 = new Set();
+        opts2.add(F);
+        while(opts2.size < 4) {
+            let fake = F + (Math.floor(Math.random() * 10) - 5) * 10;
+            if(fake !== F && fake > 0) opts2.add(fake);
+        }
+        const opts2Arr = Array.from(opts2).sort(() => 0.5 - Math.random());
+        const ans2 = opts2Arr.indexOf(F);
+
         tasks.push({
-          q: `Чему равна сила тяжести, действующая на тело массой ${m} кг?`,
-          opts: opts2.map(val => `${val} Н`),
+          q: `Чему равна сила тяжести, действующая на тело массой ${m} кг? (g=10 м/с²)`,
+          opts: opts2Arr.map(val => `${val} Н`),
           ans: ans2
         });
       }
 
       if (topicId === "pressure") {
-        const F = Math.floor(Math.random() * 200) + 50;
-        const S = Math.floor(Math.random() * 4) + 1;
+        const F = Math.floor(Math.random() * 500) + 100;
+        const S = Math.floor(Math.random() * 10) + 2;
         const P = Math.round(F / S);
-        const opts = [P - 10, P, P + 10, P + 20].sort(() => 0.5 - Math.random());
-        const correctIndex = opts.indexOf(P);
+        
+        let opts = new Set();
+        opts.add(P);
+        while(opts.size < 4) {
+             let fake = P + (Math.floor(Math.random() * 20) - 10);
+             if(fake !== P && fake > 0) opts.add(fake);
+        }
+        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
+        const correctIndex = optsArr.indexOf(P);
+
         tasks.push({
           q: `Какое давление оказывает сила ${F} Н на площадь ${S} м²?`,
-          opts: opts.map(val => `${val} Па`),
+          opts: optsArr.map(val => `${val} Па`),
           ans: correctIndex
         });
       }
@@ -762,58 +788,75 @@
       }
 
       if (topicId === "electricity") {
-        const U = Math.floor(Math.random() * 20) + 5;
-        const R = Math.floor(Math.random() * 10) + 2;
+        const U = Math.floor(Math.random() * 100) + 10;
+        const R = Math.floor(Math.random() * 20) + 2;
         const I = (U / R).toFixed(1);
-        const opts = [parseFloat(I) - 0.5, parseFloat(I), parseFloat(I) + 0.5, parseFloat(I) + 1]
-          .map(x => x.toFixed(1))
-          .sort(() => 0.5 - Math.random());
-        const correctIndex = opts.indexOf(I);
+        
+        let opts = new Set();
+        opts.add(parseFloat(I));
+        while(opts.size < 4) {
+            let fake = parseFloat((parseFloat(I) + (Math.random() * 4 - 2)).toFixed(1));
+            if(fake > 0 && !opts.has(fake)) opts.add(fake);
+        }
+        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
+        const correctIndex = optsArr.indexOf(parseFloat(I));
+
         tasks.push({
           q: `Напряжение на участке цепи ${U} В, сопротивление ${R} Ом. Чему равна сила тока?`,
-          opts: opts.map(val => `${val} А`),
+          opts: optsArr.map(val => `${val} А`),
           ans: correctIndex
         });
       }
 
       if (topicId === "mechanics9") {
-        const m = Math.floor(Math.random() * 6) + 2;
-        const v = Math.floor(Math.random() * 8) + 3;
+        const m = Math.floor(Math.random() * 20) + 2;
+        const v = Math.floor(Math.random() * 30) + 5;
         const p = m * v;
-        const opts = [p - 3, p, p + 3, p + 6].sort(() => 0.5 - Math.random());
-        const correctIndex = opts.indexOf(p);
+        
+        let opts = new Set();
+        opts.add(p);
+        while(opts.size < 4) {
+            let fake = p + (Math.floor(Math.random() * 10) - 5) * 5;
+            if(fake !== p && fake > 0) opts.add(fake);
+        }
+        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
+        const correctIndex = optsArr.indexOf(p);
+
         tasks.push({
           q: `Тело массой ${m} кг движется со скоростью ${v} м/с. Чему равен его импульс?`,
-          opts: opts.map(val => `${val} кг·м/с`),
+          opts: optsArr.map(val => `${val} кг·м/с`),
           ans: correctIndex
         });
       }
 
       if (topicId === "waves") {
-        const f = Math.floor(Math.random() * 80) + 20;
-        const T = (1 / f).toFixed(2);
-        const opts = [
-          (parseFloat(T) - 0.01).toFixed(2),
-          T,
-          (parseFloat(T) + 0.01).toFixed(2),
-          (parseFloat(T) + 0.02).toFixed(2)
-        ].sort(() => 0.5 - Math.random());
-        const correctIndex = opts.indexOf(T);
+        const f = Math.floor(Math.random() * 200) + 50;
+        const T = (1 / f).toFixed(3); // Больше точности
+        
+        let opts = new Set();
+        opts.add(T);
+        while(opts.size < 4) {
+            let fake = (1 / (f + (Math.random()*20 - 10))).toFixed(3);
+            if(!opts.has(fake)) opts.add(fake);
+        }
+        const optsArr = Array.from(opts).sort();
+        const correctIndex = optsArr.indexOf(T);
+
         tasks.push({
           q: `Чему равен период колебаний, если частота ${f} Гц?`,
-          opts: opts.map(val => `${val} с`),
+          opts: optsArr.map(val => `${val} с`),
           ans: correctIndex
         });
       }
 
       if (topicId === "oge1") {
         tasks.push({
-          q: "Автомобиль движется по прямой улице. На графике представлена зависимость его скорости от времени. Чему равен модуль ускорения автомобиля на интервале времени от 10 с до 20 с?",
+          q: "Автомобиль движется по прямой улице. На графике представлена зависимость его скорости от времени. Если скорость изменилась с 0 до 20 м/с за 10 секунд, чему равно ускорение?",
           opts: ["1 м/с²", "2 м/с²", "3 м/с²", "4 м/с²"],
-          ans: 0
+          ans: 1
         });
         tasks.push({
-          q: "Легковой автомобиль и грузовик движутся со скоростями 108 км/ч и 54 км/ч соответственно. Масса легкового автомобиля 1000 кг. Какова масса грузовика, если отношение импульса грузовика к импульсу легкового автомобиля равно 1,5?",
+          q: "Легковой автомобиль (1000 кг) и грузовик движутся с одинаковой скоростью. Импульс грузовика в 3 раза больше. Какова масса грузовика?",
           opts: ["2000 кг", "2500 кг", "3000 кг", "3500 кг"],
           ans: 2
         });
@@ -896,19 +939,22 @@
         }
 
         currentTopic.tasks.forEach((task, idx) => {
-          const score = userAnswers[idx] !== undefined && userAnswers[idx] === task.ans ? 5 : 0;
+          // Показываем результат только если тема проверена
+          const score = isTopicVerified && userAnswers[idx] !== undefined && userAnswers[idx] === task.ans ? 5 : 0;
+          
           tasksHtml += `
             <div style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.05);">
               <div class="task-question">${task.q}</div>
               <div class="task-options" id="task-${idx}-options">
                 ${task.opts.map((opt, i) => `
                   <label class="task-option">
-                    <input type="radio" name="task-${idx}" value="${i}" ${userAnswers[idx] === i ? 'checked' : ''}>
+                    <input type="radio" name="task-${idx}" value="${i}" ${userAnswers[idx] === i ? 'checked' : ''} ${isTopicVerified ? 'disabled' : ''}>
                     ${opt}
                   </label>
                 `).join('')}
               </div>
-              ${score > 0 ? `<div class="score-badge"><i class="fas fa-award"></i> +${score} баллов</div>` : ''}
+              ${score > 0 ? `<div class="score-badge"><i class="fas fa-check-circle"></i> Верно! +5 баллов</div>` : 
+                (isTopicVerified ? `<div style="color: #ef4444; margin-top:8px;"><i class="fas fa-times-circle"></i> Неверно</div>` : '')}
             </div>
           `;
         });
@@ -936,7 +982,7 @@
         `;
         renderMath();
 
-        // Добавляем слушатель на изменения радио-кнопок, чтобы сохранять ответы
+        // === КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ: Слушатель событий на радио-кнопки ===
         const radioInputs = modalBody.querySelectorAll('input[type="radio"]');
         radioInputs.forEach(input => {
             input.addEventListener('change', (e) => {
@@ -944,6 +990,7 @@
                 const index = parseInt(name.split('-')[1]);
                 const value = parseInt(e.target.value);
                 userAnswers[index] = value;
+                console.log(`Ответ сохранен: Вопрос ${index}, Вариант ${value}`); // Для отладки
             });
         });
       }
@@ -960,6 +1007,15 @@
       });
       
       document.getElementById('check-answers')?.addEventListener('click', () => {
+        // Проверка: все ли вопросы имеют ответы?
+        const totalTasks = currentTopic.tasks.length;
+        const answeredCount = Object.keys(userAnswers).length;
+        
+        if (answeredCount < totalTasks) {
+            alert(`Вы ответили не на все вопросы! (${answeredCount} из ${totalTasks})`);
+            return;
+        }
+        
         isTopicVerified = true;
         renderModalContent();
       });
