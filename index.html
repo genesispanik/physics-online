@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Физика Онлайн</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css ">
   <!-- MathJax для красивых формул -->
   <script>
     window.MathJax = {
@@ -18,9 +18,9 @@
       }
     };
   </script>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6 "></script>
   <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js ">
   </script>
   <style>
     :root {
@@ -35,6 +35,7 @@
       --button-hover: rgba(255, 255, 255, 0.12);
       --glow-blue: rgba(96, 165, 250, 0.3);
       --glow-purple: rgba(168, 85, 247, 0.2);
+      --glow-orange: rgba(255, 165, 0, 0.3); /* Добавлен оранжевый для предупреждений */
     }
 
     * {
@@ -228,6 +229,44 @@
     .start-link:hover {
       color: #3b82f6;
       text-shadow: 0 0 10px rgba(96, 165, 250, 0.8);
+    }
+
+    /* Стили для блока техобслуживания */
+    .maintenance-card {
+      background: rgba(255, 165, 0, 0.05);
+      border: 1px solid rgba(255, 165, 0, 0.3);
+      border-radius: 18px;
+      padding: 40px 24px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 20px var(--glow-orange);
+      animation: pulse-warning 3s infinite;
+    }
+
+    .maintenance-icon {
+      font-size: 3rem;
+      color: #fbbf24;
+      margin-bottom: 16px;
+      text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+    }
+
+    .maintenance-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fbbf24;
+      margin-bottom: 12px;
+    }
+
+    .maintenance-text {
+      color: #e0e0ff;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    @keyframes pulse-warning {
+      0% { box-shadow: 0 0 20px var(--glow-orange); }
+      50% { box-shadow: 0 0 30px rgba(255, 165, 0, 0.5); }
+      100% { box-shadow: 0 0 20px var(--glow-orange); }
     }
 
     .modal {
@@ -462,7 +501,7 @@
   <header>
     <!-- Иконка Telegram в правом верхнем углу -->
     <div style="position: absolute; top: 16px; right: 16px; display: flex; align-items: center; gap: 8px; z-index: 50;">
-      <a href="https://t.me/panikgenesis" target="_blank" style="color: #60a5fa; font-size: 1.2rem; text-decoration: none;">
+      <a href="https://t.me/panikgenesis " target="_blank" style="color: #60a5fa; font-size: 1.2rem; text-decoration: none;">
         <i class="fab fa-telegram"></i>
       </a>
       <span style="font-size: 0.9rem; color: var(--text-secondary);">Мы в соцсетях</span>
@@ -470,7 +509,7 @@
 
     <div class="header-content">
       <div class="avatar">
-        <img src="https://i.imgur.com/7QYJdZr.png" alt="Аватар">
+        <img src="https://i.imgur.com/7QYJdZr.png " alt="Аватар">
       </div>
       <h1>Физика Онлайн</h1>
     </div>
@@ -873,8 +912,26 @@
       const container = document.getElementById('topics-container');
       const sectionTitle = document.getElementById('section-title');
       const data = topicsData[tabKey];
+      
       sectionTitle.textContent = data.title;
       container.innerHTML = '';
+
+      // === ИЗМЕНЕНИЕ: Проверка на вкладку ОГЭ ===
+      if (tabKey === 'oge') {
+        container.innerHTML = `
+          <div class="maintenance-card">
+            <div class="maintenance-icon"><i class="fas fa-tools"></i></div>
+            <div class="maintenance-title">Раздел закрыт на техническое обслуживание</div>
+            <div class="maintenance-text">
+              Мы обновляем базу заданий ОГЭ, чтобы сделать её ещё лучше.<br>
+              Пожалуйста, попробуйте позже.
+            </div>
+          </div>
+        `;
+        return; // Прерываем функцию, чтобы не рендерить обычные карточки
+      }
+
+      // Стандартный рендеринг для остальных вкладок
       data.topics.forEach(topic => {
         const card = document.createElement('div');
         card.className = 'topic-card';
