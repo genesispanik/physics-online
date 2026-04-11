@@ -39,6 +39,8 @@
       --glow-purple: rgba(168, 85, 247, 0.2);
       --glow-orange: rgba(255, 165, 0, 0.3);
       --glow-green: rgba(52, 211, 153, 0.3);
+      --glow-telegram: rgba(0, 136, 204, 0.3);
+      --glow-max: rgba(255, 107, 107, 0.3);
     }
 
     * {
@@ -124,11 +126,28 @@
       font-size: 0.9rem;
       text-decoration: none;
       transition: all 0.2s;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
     }
 
     .social-link:hover {
-      color: #3b82f6;
-      text-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .social-link.telegram:hover {
+      background: rgba(0, 136, 204, 0.2);
+      border-color: rgba(0, 136, 204, 0.5);
+      box-shadow: 0 0 15px var(--glow-telegram);
+    }
+
+    .social-link.max:hover {
+      background: rgba(255, 107, 107, 0.2);
+      border-color: rgba(255, 107, 107, 0.5);
+      box-shadow: 0 0 15px var(--glow-max);
     }
 
     .max-badge {
@@ -534,6 +553,55 @@
       transform: translateY(-1px);
     }
 
+    /* НОВОЕ: Кнопки чатов */
+    .chat-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .chat-btn.telegram {
+      background: rgba(0, 136, 204, 0.15);
+      color: #0088cc;
+      border-color: rgba(0, 136, 204, 0.3);
+    }
+
+    .chat-btn.telegram:hover {
+      background: rgba(0, 136, 204, 0.25);
+      border-color: rgba(0, 136, 204, 0.6);
+      box-shadow: 0 0 15px var(--glow-telegram);
+      transform: translateY(-2px);
+    }
+
+    .chat-btn.max {
+      background: rgba(255, 107, 107, 0.15);
+      color: #ff6b6b;
+      border-color: rgba(255, 107, 107, 0.3);
+    }
+
+    .chat-btn.max:hover {
+      background: rgba(255, 107, 107, 0.25);
+      border-color: rgba(255, 107, 107, 0.6);
+      box-shadow: 0 0 15px var(--glow-max);
+      transform: translateY(-2px);
+    }
+
     footer {
       text-align: center;
       padding: 32px 16px 16px;
@@ -571,6 +639,13 @@
         top: 10px;
         right: 10px;
       }
+      .chat-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .chat-btn {
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -578,11 +653,11 @@
   <header>
     <!-- Социальные сети -->
     <div class="social-links">
-      <a href="https://t.me/panikgenesis" target="_blank" class="social-link">
+      <a href="https://t.me/panikgenesis" target="_blank" class="social-link telegram">
         <i class="fab fa-telegram"></i>
         <span>Telegram канал</span>
       </a>
-      <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="social-link">
+      <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="social-link max">
         <i class="fas fa-comment-dots"></i>
         <span>Чат в MAX</span>
         <span class="max-badge">NEW!</span>
@@ -592,9 +667,9 @@
     <div class="header-content">
       <div class="avatar">
         <!-- ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА ВАШУ АВАТАРКУ -->
-        <img src="https://via.placeholder.com/80x80?text=AVATAR" alt="Аватар">
+        <img src="https://w.wallhaven.cc/full/k9/wallhaven-k9zvkd.png" alt="Аватар PanikPhysics">
       </div>
-      <h1><a href="https://genesispanik.github.io/physics-online/" target="_blank" class="site-link">PanikPhysics</a></h1>
+      <h1><a href="https://panikphysics.ru" target="_blank" class="site-link">PanikPhysics</a></h1>
     </div>
   </header>
 
@@ -624,12 +699,24 @@
   </div>
 
   <footer>
-    <p>© 2025-2026 <a href="https://genesispanik.github.io/physics-online/" target="_blank" class="site-link">PanikPhysics</a>. Все права защищены.</p>
+    <p>© 2025-2026 <a href="https://panikphysics.ru" target="_blank" class="site-link">PanikPhysics</a>. Все права защищены.</p>
     <p style="margin-top: 8px; font-size: 0.9rem;">
       Присоединяйтесь к нам: 
-      <a href="https://t.me/genesischats" target="_blank" class="site-link">Telegram</a> | 
+      <a href="https://t.me/panikgenesis" target="_blank" class="site-link">Telegram</a> | 
       <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="site-link">MAX Чат</a>
     </p>
+    
+    <!-- НОВОЕ: Кнопки чатов в футере -->
+    <div class="chat-buttons">
+      <a href="https://t.me/genesischats" target="_blank" class="chat-btn telegram">
+        <i class="fab fa-telegram"></i>
+        <span>Написать в Telegram</span>
+      </a>
+      <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="chat-btn max">
+        <i class="fas fa-comment-dots"></i>
+        <span>Присоединиться к чату MAX</span>
+      </a>
+    </div>
   </footer>
 
   <script>
@@ -1317,6 +1404,22 @@
           `;
         } else {
           actionButtons = `<button class="modal-btn check-btn" id="check-answers">Проверить ответы</button>`;
+        }
+
+        // НОВОЕ: Добавляем кнопки чатов после проверки задач
+        if (isTopicVerified) {
+          actionButtons += `
+            <div class="chat-buttons">
+              <a href="https://t.me/panikgenesis" target="_blank" class="chat-btn telegram">
+                <i class="fab fa-telegram"></i>
+                <span>Обсудить в Telegram</span>
+              </a>
+              <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="chat-btn max">
+                <i class="fas fa-comment-dots"></i>
+                <span>Задать вопрос в MAX</span>
+              </a>
+            </div>
+          `;
         }
 
         modalBody.innerHTML = tasksHtml + `
