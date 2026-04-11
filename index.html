@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Физика Онлайн</title>
+  <title>PanikPhysics — Физика без паники</title>
+  <meta name="description" content="Интерактивный курс по физике для 7-9 классов. Теория, формулы, задачи с генерацией чисел. Подготовка к ОГЭ. От автора @panikgenesis."/>
+  <meta name="keywords" content="физика, 7 класс, 8 класс, 9 класс, ОГЭ, задачи, формулы, PanikPhysics, panikgenesis, онлайн обучение"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css ">
   <!-- MathJax для красивых формул -->
   <script>
@@ -35,7 +37,8 @@
       --button-hover: rgba(255, 255, 255, 0.12);
       --glow-blue: rgba(96, 165, 250, 0.3);
       --glow-purple: rgba(168, 85, 247, 0.2);
-      --glow-orange: rgba(255, 165, 0, 0.3); /* Добавлен оранжевый для предупреждений */
+      --glow-orange: rgba(255, 165, 0, 0.3);
+      --glow-green: rgba(52, 211, 153, 0.3);
     }
 
     * {
@@ -99,6 +102,50 @@
       font-weight: 700;
       margin-bottom: 8px;
       text-shadow: 0 0 10px var(--glow-blue);
+    }
+
+    /* Блок социальных сетей */
+    .social-links {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      z-index: 50;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #60a5fa;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .social-link:hover {
+      color: #3b82f6;
+      text-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
+    }
+
+    .max-badge {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(238, 90, 36, 0.4);
+      animation: pulse-max 2s infinite;
+    }
+
+    @keyframes pulse-max {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
 
     nav {
@@ -241,6 +288,7 @@
       backdrop-filter: blur(12px);
       box-shadow: 0 0 20px var(--glow-orange);
       animation: pulse-warning 3s infinite;
+      margin-top: 20px;
     }
 
     .maintenance-icon {
@@ -400,6 +448,7 @@
       justify-content: center;
       gap: 14px;
       margin-top: 16px;
+      flex-wrap: wrap;
     }
 
     .modal-btn {
@@ -473,6 +522,18 @@
       transform: translateY(-1px);
     }
 
+    .close-topic-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
+    }
+
+    .close-topic-btn:hover {
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+      transform: translateY(-1px);
+    }
+
     footer {
       text-align: center;
       padding: 32px 16px 16px;
@@ -480,6 +541,18 @@
       border-top: 1px solid var(--border);
       margin-top: 48px;
       backdrop-filter: blur(8px);
+    }
+
+    .site-link {
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .site-link:hover {
+      color: #3b82f6;
+      text-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
     }
 
     @media (max-width: 640px) {
@@ -494,24 +567,34 @@
         padding: 10px 14px;
         font-size: 0.8rem;
       }
+      .social-links {
+        top: 10px;
+        right: 10px;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <!-- Иконка Telegram в правом верхнем углу -->
-    <div style="position: absolute; top: 16px; right: 16px; display: flex; align-items: center; gap: 8px; z-index: 50;">
-      <a href="https://t.me/panikgenesis " target="_blank" style="color: #60a5fa; font-size: 1.2rem; text-decoration: none;">
+    <!-- Социальные сети -->
+    <div class="social-links">
+      <a href="https://t.me/panikgenesis" target="_blank" class="social-link">
         <i class="fab fa-telegram"></i>
+        <span>Telegram канал</span>
       </a>
-      <span style="font-size: 0.9rem; color: var(--text-secondary);">Мы в соцсетях</span>
+      <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="social-link">
+        <i class="fas fa-comment-dots"></i>
+        <span>Чат в MAX</span>
+        <span class="max-badge">NEW!</span>
+      </a>
     </div>
 
     <div class="header-content">
       <div class="avatar">
-        <img src="https://i.imgur.com/7QYJdZr.png " alt="Аватар">
+        <!-- ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА ВАШУ АВАТАРКУ -->
+        <img src="https://via.placeholder.com/80x80?text=AVATAR" alt="Аватар">
       </div>
-      <h1>Физика Онлайн</h1>
+      <h1><a href="https://genesispanik.github.io/physics-online/" target="_blank" class="site-link">PanikPhysics</a></h1>
     </div>
   </header>
 
@@ -541,7 +624,12 @@
   </div>
 
   <footer>
-    <p>© 2025 Физика Онлайн. Все права защищены.</p>
+    <p>© 2025-2026 <a href="https://genesispanik.github.io/physics-online/" target="_blank" class="site-link">PanikPhysics</a>. Все права защищены.</p>
+    <p style="margin-top: 8px; font-size: 0.9rem;">
+      Присоединяйтесь к нам: 
+      <a href="https://t.me/panikgenesis" target="_blank" class="site-link">Telegram</a> | 
+      <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="site-link">MAX Чат</a>
+    </p>
   </footer>
 
   <script>
@@ -621,6 +709,47 @@
                 </ul>
               </div>
             `
+          },
+          {
+            id: "work_power",
+            name: "Работа и Мощность",
+            desc: "Механическая работа, мощность, простые механизмы",
+            slides: [
+              "Механическая работа совершается, когда сила действует на тело и оно перемещается.",
+              "Работа измеряется в Джоулях (Дж). 1 Дж = 1 Н · 1 м.",
+              "Мощность показывает, как быстро совершается работа. Измеряется в Ваттах (Вт).",
+              "Простые механизмы (рычаг, блок) дают выигрыш в силе, но не в работе."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Формулы работы и мощности</h4>
+                <p><strong>Механическая работа:</strong></p>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( A = F \\cdot s \\)</p>
+                <p style="margin-top: 16px;"><strong>Мощность:</strong></p>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( N = \\frac{A}{t} \\)</p>
+              </div>
+            `
+          },
+          {
+            id: "archimedes",
+            name: "Архимедова сила",
+            desc: "Закон Архимеда, плавание тел",
+            slides: [
+              "На тело, погруженное в жидкость, действует выталкивающая сила.",
+              "Эта сила направлена вертикально вверх и равна весу вытесненной жидкости.",
+              "Если плотность тела меньше плотности жидкости, тело плавает.",
+              "Если плотность тела больше, тело тонет."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Закон Архимеда</h4>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( F_A = \\rho_{ж} \\cdot g \\cdot V_{т} \\)</p>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc;">
+                  <li>\\( \\rho_{ж} \\) — плотность жидкости (кг/м³)</li>
+                  <li>\\( V_{т} \\) — объем погруженной части тела (м³)</li>
+                </ul>
+              </div>
+            `
           }
         ]
       },
@@ -668,6 +797,46 @@
                   <li>\\( I \\) — сила тока (А)</li>
                   <li>\\( U \\) — напряжение (В)</li>
                   <li>\\( R \\) — сопротивление (Ом)</li>
+                </ul>
+              </div>
+            `
+          },
+          {
+            id: "magnetism",
+            name: "Магнитные явления",
+            desc: "Магнитное поле, электромагниты",
+            slides: [
+              "Вокруг движущихся зарядов (тока) существует магнитное поле.",
+              "Магнитное поле обнаруживается по действию на магнитную стрелку или другой проводник с током.",
+              "Электромагнит — это катушка с железным сердечником внутри.",
+              "Постоянные магниты имеют два полюса: северный (N) и южный (S)."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Магнитное поле</h4>
+                <p>Для магнитного поля характерны линии индукции, которые всегда замкнуты.</p>
+                <p>Направление линий определяется правилом буравчика (правой руки).</p>
+              </div>
+            `
+          },
+          {
+            id: "optics",
+            name: "Световые явления",
+            desc: "Отражение, преломление, линзы",
+            slides: [
+              "Свет распространяется прямолинейно в однородной среде.",
+              "Закон отражения: угол падения равен углу отражения.",
+              "При переходе из одной среды в другую свет преломляется.",
+              "Линзы бывают собирающие (выпуклые) и рассеивающие (вогнутые)."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Оптика</h4>
+                <p><strong>Оптическая сила линзы:</strong></p>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( D = \\frac{1}{F} \\)</p>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc;">
+                  <li>\\( D \\) — оптическая сила (дптр)</li>
+                  <li>\\( F \\) — фокусное расстояние (м)</li>
                 </ul>
               </div>
             `
@@ -719,36 +888,52 @@
                 </ul>
               </div>
             `
+          },
+          {
+            id: "nuclear",
+            name: "Ядерная физика",
+            desc: "Строение атома, радиоактивность, ядерные реакции",
+            slides: [
+              "Атом состоит из положительно заряженного ядра и отрицательных электронов.",
+              "Ядро состоит из протонов и нейтронов.",
+              "Радиоактивность — самопроизвольное испускание частиц нестабильными ядрами.",
+              "Ядерные реакции сопровождаются выделением огромного количества энергии."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Энергия связи</h4>
+                <p style="font-size: 1.2rem; margin: 8px 0;">\\( E = mc^2 \\)</p>
+                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc;">
+                  <li>\\( E \\) — энергия (Дж)</li>
+                  <li>\\( m \\) — масса (кг)</li>
+                  <li>\\( c \\) — скорость света (м/с)</li>
+                </ul>
+              </div>
+            `
+          },
+          {
+            id: "astrophysics",
+            name: "Элементы астрофизики",
+            desc: "Солнечная система, звезды, эволюция Вселенной",
+            slides: [
+              "Солнце — ближайшая к нам звезда, источник энергии для Земли.",
+              "Звезды рождаются из газопылевых туманностей и эволюционируют миллиарды лет.",
+              "Галактика Млечный Путь содержит сотни миллиардов звезд.",
+              "Вселенная расширяется, что подтверждается красным смещением спектров галактик."
+            ],
+            formulaInfo: `
+              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #60a5fa; margin-bottom: 12px;">Парадоксы космоса</h4>
+                <p>Расстояние до звезд измеряется в световых годах или парсеках.</p>
+                <p>1 пк ≈ 3.26 св. года.</p>
+              </div>
+            `
           }
         ]
       },
       oge: {
         title: "Пробные задания ОГЭ",
-        topics: [
-          {
-            id: "oge1",
-            name: "Демонстрационный вариант",
-            desc: "Официальные задания ОГЭ по физике",
-            slides: [
-              "ОГЭ по физике включает задания по всем разделам курса.",
-              "Экзамен состоит из двух частей: с кратким и развернутым ответом.",
-              "На выполнение работы отводится 180 минут.",
-              "Для успешной сдачи нужно набрать минимум 10 баллов из 40."
-            ],
-            formulaInfo: `
-              <div style="background: rgba(30,30,50,0.6); border-radius: 12px; padding: 16px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);">
-                <h4 style="color: #60a5fa; margin-bottom: 12px;">Ключевые формулы</h4>
-                <ul style="text-align: left; margin-top: 8px; font-size: 0.95rem; color: #ccc; line-height: 1.6;">
-                  <li>Кинематика: \\( v = v_0 + at \\), \\( s = v_0 t + \\frac{at^2}{2} \\)</li>
-                  <li>Динамика: \\( F = ma \\), \\( p = mv \\)</li>
-                  <li>Теплота: \\( Q = cm\\Delta t \\)</li>
-                  <li>Электричество: \\( I = \\frac{U}{R} \\)</li>
-                  <li>Волны: \\( T = \\frac{1}{f} \\)</li>
-                </ul>
-              </div>
-            `
-          }
-        ]
+        topics: [] // Пустой массив, так как раздел закрыт
       }
     };
 
@@ -756,12 +941,10 @@
       const tasks = [];
 
       if (topicId === "mechanics") {
-        // Увеличены диапазоны чисел для разнообразия
-        const v = Math.floor(Math.random() * 40) + 5; // 5-45 м/с
-        const t = Math.floor(Math.random() * 50) + 10; // 10-60 с
+        const v = Math.floor(Math.random() * 40) + 5; 
+        const t = Math.floor(Math.random() * 50) + 10; 
         const s = v * t;
         
-        // Генерируем варианты ответов
         let options = new Set();
         options.add(s);
         while(options.size < 4) {
@@ -777,7 +960,7 @@
           ans: correctIndex
         });
 
-        const m = Math.floor(Math.random() * 50) + 5; // 5-55 кг
+        const m = Math.floor(Math.random() * 50) + 5; 
         const g = 10;
         const F = m * g;
         
@@ -818,11 +1001,68 @@
         });
       }
 
-      if (topicId === "thermal") {
+      if (topicId === "work_power") {
+        const F = Math.floor(Math.random() * 100) + 20;
+        const s = Math.floor(Math.random() * 50) + 10;
+        const A = F * s;
+        
+        let opts = new Set();
+        opts.add(A);
+        while(opts.size < 4) {
+             let fake = A + (Math.floor(Math.random() * 50) - 25);
+             if(fake !== A && fake > 0) opts.add(fake);
+        }
+        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
+        const correctIndex = optsArr.indexOf(A);
+
         tasks.push({
-          q: "Какой способ теплопередачи осуществляется в вакууме?",
-          opts: ["Теплопроводность", "Конвекция", "Излучение", "Все способы"],
-          ans: 2
+          q: `Какую работу совершает сила ${F} Н на пути ${s} м?`,
+          opts: optsArr.map(val => `${val} Дж`),
+          ans: correctIndex
+        });
+      }
+
+      if (topicId === "archimedes") {
+        const rho = 1000; // вода
+        const g = 10;
+        const V = Math.floor(Math.random() * 5) + 1; // м3
+        const Fa = rho * g * V;
+        
+        let opts = new Set();
+        opts.add(Fa);
+        while(opts.size < 4) {
+             let fake = Fa + (Math.floor(Math.random() * 1000) - 500);
+             if(fake !== Fa && fake > 0) opts.add(fake);
+        }
+        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
+        const correctIndex = optsArr.indexOf(Fa);
+
+        tasks.push({
+          q: `Чему равна архимедова сила, действующая на тело объемом ${V} м³, полностью погруженное в воду? (ρ=1000 кг/м³, g=10 м/с²)`,
+          opts: optsArr.map(val => `${val} Н`),
+          ans: correctIndex
+        });
+      }
+
+      if (topicId === "thermal") {
+        const c = 4200; // вода
+        const m = Math.floor(Math.random() * 10) + 1;
+        const dt = Math.floor(Math.random() * 50) + 10;
+        const Q = c * m * dt;
+        
+        let opts = new Set();
+        opts.add(Q);
+        while(opts.size < 4) {
+             let fake = Q + (Math.floor(Math.random() * 10000) - 5000);
+             if(fake !== Q && fake > 0) opts.add(fake);
+        }
+        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
+        const correctIndex = optsArr.indexOf(Q);
+
+        tasks.push({
+          q: `Какое количество теплоты нужно сообщить ${m} кг воды, чтобы нагреть её на ${dt} °C? (c=4200 Дж/(кг·°C))`,
+          opts: optsArr.map(val => `${val} Дж`),
+          ans: correctIndex
         });
       }
 
@@ -843,6 +1083,34 @@
         tasks.push({
           q: `Напряжение на участке цепи ${U} В, сопротивление ${R} Ом. Чему равна сила тока?`,
           opts: optsArr.map(val => `${val} А`),
+          ans: correctIndex
+        });
+      }
+
+      if (topicId === "magnetism") {
+         tasks.push({
+          q: "Какое явление лежит в основе работы электромагнита?",
+          opts: ["Тепловое действие тока", "Магнитное действие тока", "Химическое действие тока", "Световое действие тока"],
+          ans: 1
+        });
+      }
+
+      if (topicId === "optics") {
+        const F = Math.floor(Math.random() * 50) + 10; // см
+        const D = (100 / F).toFixed(2); // дптр
+        
+        let opts = new Set();
+        opts.add(D);
+        while(opts.size < 4) {
+            let fake = (100 / (F + (Math.random()*10 - 5))).toFixed(2);
+            if(!opts.has(fake)) opts.add(fake);
+        }
+        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
+        const correctIndex = optsArr.indexOf(D);
+
+        tasks.push({
+          q: `Определите оптическую силу линзы с фокусным расстоянием ${F} см.`,
+          opts: optsArr.map(val => `${val} дптр`),
           ans: correctIndex
         });
       }
@@ -870,7 +1138,7 @@
 
       if (topicId === "waves") {
         const f = Math.floor(Math.random() * 200) + 50;
-        const T = (1 / f).toFixed(3); // Больше точности
+        const T = (1 / f).toFixed(3); 
         
         let opts = new Set();
         opts.add(T);
@@ -885,6 +1153,22 @@
           q: `Чему равен период колебаний, если частота ${f} Гц?`,
           opts: optsArr.map(val => `${val} с`),
           ans: correctIndex
+        });
+      }
+
+      if (topicId === "nuclear") {
+        tasks.push({
+          q: "Какие частицы входят в состав ядра атома?",
+          opts: ["Электроны и протоны", "Протоны и нейтроны", "Нейтроны и электроны", "Только протоны"],
+          ans: 1
+        });
+      }
+
+      if (topicId === "astrophysics") {
+        tasks.push({
+          q: "Какая планета Солнечной системы является самой большой?",
+          opts: ["Земля", "Марс", "Юпитер", "Сатурн"],
+          ans: 2
         });
       }
 
@@ -1020,21 +1304,24 @@
         const currentTabIndex = topicsData[currentTabKey].topics.findIndex(t => t.id === currentTopic.id);
         if (currentTabIndex < topicsData[currentTabKey].topics.length - 1) {
           const nextTopic = topicsData[currentTabKey].topics[currentTabIndex + 1];
-          nextButton = `<button class="modal-btn next-topic-btn" id="next-topic">Далее: ${nextTopic.name}</button>`;
+          nextButton = `<button class="modal-btn next-topic-btn" id="next-topic">Продолжить: ${nextTopic.name}</button>`;
         } else {
           nextButton = `<button class="modal-btn restart-btn" id="restart-topic">Начать заново</button>`;
         }
 
-        let actionButton;
+        let actionButtons;
         if (isTopicVerified) {
-          actionButton = nextButton;
+          actionButtons = `
+            <button class="modal-btn close-topic-btn" id="close-topic">Закрыть тему</button>
+            ${nextButton}
+          `;
         } else {
-          actionButton = `<button class="modal-btn check-btn" id="check-answers">Проверить ответы</button>`;
+          actionButtons = `<button class="modal-btn check-btn" id="check-answers">Проверить ответы</button>`;
         }
 
         modalBody.innerHTML = tasksHtml + `
           <div class="modal-actions">
-            ${actionButton}
+            ${actionButtons}
           </div>
         `;
         renderMath();
@@ -1089,6 +1376,10 @@
         isTopicVerified = false;
         renderModalContent();
       });
+
+      document.getElementById('close-topic')?.addEventListener('click', () => {
+        closeModal();
+      });
     }
 
     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1101,9 +1392,13 @@
     });
 
     document.getElementById('close-modal').addEventListener('click', () => {
+      closeModal();
+    });
+
+    function closeModal() {
       document.getElementById('presentation-modal').classList.remove('active');
       isTopicVerified = false;
-    });
+    }
 
     renderTopics('physics7');
   </script>
