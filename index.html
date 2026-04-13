@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PanikPhysics — Физика без паники</title>
-  <meta name="description" content="Интерактивный курс по физике для 7-9 классов. Теория, формулы, задачи с генерацией чисел. Подготовка к ОГЭ."/>
+  <meta name="description" content="Интерактивный курс по физике для 7-9 классов. Теория, формулы, задачи с генерацией чисел. Подготовка к ОГЭ и ВПР."/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css ">
   <!-- MathJax -->
   <script>
@@ -45,7 +45,6 @@
       overflow-x: hidden;
     }
 
-    /* --- ШАПКА: АВАТАРКА СЛЕВА, НАЗВАНИЕ ПОД НЕЙ, КНОПКИ СПРАВА ЛЕСЕНКОЙ --- */
     header {
       position: relative;
       padding: 20px;
@@ -112,6 +111,7 @@
       backdrop-filter: blur(5px);
       min-width: 140px;
       justify-content: space-between;
+      position: relative;
     }
 
     .social-btn.telegram {
@@ -158,12 +158,16 @@
       border-radius: 8px;
       font-weight: bold;
       animation: pulse 2s infinite;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      z-index: 2;
     }
 
     @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.5; }
-      100% { opacity: 1; }
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.1); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
     nav {
@@ -196,6 +200,7 @@
       transition: all 0.3s ease;
       backdrop-filter: blur(8px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      position: relative;
     }
 
     .tab-btn:hover {
@@ -210,6 +215,21 @@
       color: white;
       border-color: rgba(96, 165, 250, 0.8);
       box-shadow: 0 0 16px var(--glow-blue);
+    }
+
+    .tab-btn[data-tab="vpr"]::after {
+      content: 'NEW!';
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ff4b4b;
+      color: white;
+      font-size: 0.6rem;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0 0 5px rgba(255, 75, 75, 0.5);
+      animation: pulse 2s infinite;
     }
 
     main {
@@ -289,7 +309,8 @@
       text-shadow: 0 0 10px rgba(96, 165, 250, 0.8);
     }
 
-    .maintenance-card {
+    /* Карточка ОГЭ */
+    .oge-dev-card {
       background: rgba(255, 165, 0, 0.05);
       border: 1px solid rgba(255, 165, 0, 0.3);
       border-radius: 18px;
@@ -301,30 +322,78 @@
       margin-top: 20px;
     }
 
-    .maintenance-icon {
+    .oge-dev-icon {
       font-size: 3rem;
       color: #fbbf24;
-      margin-bottom: 16px;
-      text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+      margin-bottom: 20px;
     }
 
-    .maintenance-title {
+    .oge-dev-title {
       font-size: 1.5rem;
       font-weight: 700;
       color: #fbbf24;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
     }
 
-    .maintenance-text {
+    .oge-dev-text {
       color: #e0e0ff;
       font-size: 1.1rem;
       line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .oge-dev-date {
+      color: #60a5fa;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 15px;
+      display: block;
     }
 
     @keyframes pulse-warning {
       0% { box-shadow: 0 0 20px var(--glow-orange); }
       50% { box-shadow: 0 0 30px rgba(255, 165, 0, 0.5); }
       100% { box-shadow: 0 0 20px var(--glow-orange); }
+    }
+
+    /* Карточка ВПР — НОВАЯ */
+    .vpr-dev-card {
+      background: rgba(96, 165, 250, 0.05);
+      border: 1px solid rgba(96, 165, 250, 0.2);
+      border-radius: 18px;
+      padding: 40px 24px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 20px rgba(96, 165, 250, 0.1);
+      margin-top: 20px;
+    }
+
+    .vpr-dev-icon {
+      font-size: 3rem;
+      color: #60a5fa;
+      margin-bottom: 20px;
+    }
+
+    .vpr-dev-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    .vpr-dev-text {
+      color: #ccc;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .vpr-dev-date {
+      color: #60a5fa;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 15px;
+      display: block;
     }
 
     .modal {
@@ -448,6 +517,68 @@
       accent-color: #60a5fa;
     }
 
+    .explanation {
+      margin-top: 8px;
+      padding: 10px;
+      background: rgba(96, 165, 250, 0.1);
+      border-left: 3px solid #60a5fa;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      color: #ccc;
+      display: none;
+    }
+
+    .task-option.correct .explanation {
+      display: block;
+      background: rgba(52, 211, 153, 0.1);
+      border-left-color: #34d399;
+    }
+
+    .task-option.wrong .explanation {
+      display: block;
+      background: rgba(239, 68, 68, 0.1);
+      border-left-color: #ef4444;
+    }
+
+    .print-btn-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .demo-badge {
+      background: #ff9900;
+      color: #000;
+      font-size: 0.6rem;
+      font-weight: bold;
+      padding: 2px 4px;
+      border-radius: 4px;
+      animation: pulse-demo 1.5s infinite;
+    }
+
+    @keyframes pulse-demo {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .print-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .print-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
     .modal-actions {
       display: flex;
       justify-content: center;
@@ -537,16 +668,18 @@
       transform: translateY(-1px);
     }
 
-    .chat-buttons {
+    /* Кнопки чатов внутри модального окна */
+    .modal-chat-buttons {
       display: flex;
       justify-content: center;
       gap: 12px;
       margin-top: 20px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
+      flex-wrap: wrap;
     }
 
-    .chat-btn {
+    .modal-chat-btn {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -557,28 +690,30 @@
       text-decoration: none;
       transition: all 0.2s;
       border: 1px solid transparent;
+      min-width: 140px;
+      justify-content: center;
     }
 
-    .chat-btn.telegram {
+    .modal-chat-btn.telegram {
       background: rgba(0, 136, 204, 0.15);
       color: #0088cc;
       border-color: rgba(0, 136, 204, 0.3);
     }
 
-    .chat-btn.telegram:hover {
+    .modal-chat-btn.telegram:hover {
       background: rgba(0, 136, 204, 0.25);
       border-color: rgba(0, 136, 204, 0.6);
       box-shadow: 0 0 15px var(--glow-telegram);
       transform: translateY(-2px);
     }
 
-    .chat-btn.max {
+    .modal-chat-btn.max {
       background: rgba(255, 107, 107, 0.15);
       color: #ff6b6b;
       border-color: rgba(255, 107, 107, 0.3);
     }
 
-    .chat-btn.max:hover {
+    .modal-chat-btn.max:hover {
       background: rgba(255, 107, 107, 0.25);
       border-color: rgba(255, 107, 107, 0.6);
       box-shadow: 0 0 15px var(--glow-max);
@@ -604,6 +739,24 @@
     .site-link:hover {
       color: #3b82f6;
       text-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
+    }
+
+    .minimal-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 50px;
+      cursor: pointer;
+      z-index: 999;
+      font-size: 0.85rem;
+    }
+
+    .minimal-toggle:hover {
+      background: rgba(255,255,255,0.2);
     }
 
     @media (max-width: 640px) {
@@ -642,22 +795,24 @@
       .site-title {
         font-size: 1.5rem;
       }
+      .modal-chat-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .modal-chat-btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <!-- Аватарка слева -->
     <div class="avatar">
       <i class="fas fa-atom"></i>
     </div>
-
-    <!-- Название под аватаркой -->
     <div class="site-title">
       <a href="https://panikphysics.ru" target="_blank" class="site-link">PanikPhysics</a>
     </div>
-
-    <!-- Кнопки соцсетей справа лесенкой -->
     <div class="social-links">
       <a href="https://t.me/genesischats" target="_blank" class="social-btn telegram">
         <i class="fab fa-telegram"></i>
@@ -668,10 +823,10 @@
         <span>Чат в MAX</span>
         <span class="badge-new">NEW!</span>
       </a>
-      <!-- ИЗМЕНЕНИЕ: Ссылка на VK обновлена -->
       <a href="https://vk.ru/club237574109" target="_blank" class="social-btn vk">
         <i class="fab fa-vk"></i>
         <span>Паблик VK</span>
+        <span class="badge-new">NEW!</span>
       </a>
     </div>
   </header>
@@ -682,6 +837,7 @@
       <button class="tab-btn" data-tab="physics8">Физика 8 класс</button>
       <button class="tab-btn" data-tab="physics9">Физика 9 класс</button>
       <button class="tab-btn" data-tab="oge">Пробные задания ОГЭ</button>
+      <button class="tab-btn" data-tab="vpr">ВПР</button>
     </div>
   </nav>
 
@@ -709,21 +865,13 @@
       <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="site-link">MAX Чат</a> |
       <a href="https://vk.ru/club237574109" target="_blank" class="site-link">VK Паблик</a>
     </p>
-    
-    <div class="chat-buttons">
-      <a href="https://t.me/genesischats" target="_blank" class="chat-btn telegram">
-        <i class="fab fa-telegram"></i>
-        <span>Написать в Telegram</span>
-      </a>
-      <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="chat-btn max">
-        <i class="fas fa-comment-dots"></i>
-        <span>Присоединиться к чату MAX</span>
-      </a>
-    </div>
   </footer>
 
+  <button class="minimal-toggle" onclick="document.body.classList.toggle('minimal-mode')">
+    <i class="fas fa-eye-slash"></i> Минимализм
+  </button>
+
   <script>
-    // === БЛОКИРОВКА КОПИРОВАНИЯ ===
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
       if (e.ctrlKey && (e.key === 'c' || e.key === 'C' || e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) {
@@ -1024,261 +1172,258 @@
       oge: {
         title: "Пробные задания ОГЭ",
         topics: []
+      },
+      vpr: {
+        title: "ВПР (Всероссийские проверочные работы)",
+        topics: []
       }
     };
 
     function generateTasks(topicId) {
       const tasks = [];
 
+      // --- МЕХАНИКА (3 задачи) ---
       if (topicId === "mechanics") {
         const v = Math.floor(Math.random() * 40) + 5; 
         const t = Math.floor(Math.random() * 50) + 10; 
         const s = v * t;
-        
-        let options = new Set();
-        options.add(s);
-        while(options.size < 4) {
-            let fake = s + (Math.floor(Math.random() * 20) - 10) * (Math.random() > 0.5 ? 1 : 10);
-            if(fake !== s && fake > 0) options.add(fake);
-        }
-        const optionsArr = Array.from(options).sort(() => 0.5 - Math.random());
-        const correctIndex = optionsArr.indexOf(s);
-
-        tasks.push({
-          q: `Тело движется со скоростью ${v} м/с. Какой путь оно пройдёт за ${t} секунд?`,
-          opts: optionsArr.map(val => `${val} м`),
-          ans: correctIndex
-        });
+        let options1 = new Set(); options1.add(s);
+        while(options1.size < 4) { let fake = s + (Math.floor(Math.random() * 20) - 10) * (Math.random() > 0.5 ? 1 : 10); if(fake !== s && fake > 0) options1.add(fake); }
+        const opts1Arr = Array.from(options1).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Тело движется со скоростью ${v} м/с. Какой путь оно пройдёт за ${t} секунд?`, opts: opts1Arr.map(val => `${val} м`), ans: opts1Arr.indexOf(s), expl: `Путь: s = v·t = ${v}·${t} = ${s} м.` });
 
         const m = Math.floor(Math.random() * 50) + 5; 
         const g = 10;
         const F = m * g;
-        
-        let opts2 = new Set();
-        opts2.add(F);
-        while(opts2.size < 4) {
-            let fake = F + (Math.floor(Math.random() * 10) - 5) * 10;
-            if(fake !== F && fake > 0) opts2.add(fake);
-        }
-        const opts2Arr = Array.from(opts2).sort(() => 0.5 - Math.random());
-        const ans2 = opts2Arr.indexOf(F);
+        let options2 = new Set(); options2.add(F);
+        while(options2.size < 4) { let fake = F + (Math.floor(Math.random() * 10) - 5) * 10; if(fake !== F && fake > 0) options2.add(fake); }
+        const opts2Arr = Array.from(options2).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Чему равна сила тяжести, действующая на тело массой ${m} кг? (g=10 м/с²)`, opts: opts2Arr.map(val => `${val} Н`), ans: opts2Arr.indexOf(F), expl: `Сила тяжести: F = m·g = ${m}·10 = ${F} Н.` });
 
-        tasks.push({
-          q: `Чему равна сила тяжести, действующая на тело массой ${m} кг? (g=10 м/с²)`,
-          opts: opts2Arr.map(val => `${val} Н`),
-          ans: ans2
-        });
+        const s3 = Math.floor(Math.random() * 200) + 50;
+        const t3 = Math.floor(Math.random() * 10) + 2;
+        const v3 = Math.round(s3 / t3);
+        let options3 = new Set(); options3.add(v3);
+        while(options3.size < 4) { let fake = v3 + (Math.floor(Math.random() * 10) - 5); if(fake !== v3 && fake > 0) options3.add(fake); }
+        const opts3Arr = Array.from(options3).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Тело прошло путь ${s3} м за ${t3} с. Какова его средняя скорость?`, opts: opts3Arr.map(val => `${val} м/с`), ans: opts3Arr.indexOf(v3), expl: `Скорость: v = s/t = ${s3}/${t3} ≈ ${v3} м/с.` });
       }
 
+      // --- ДАВЛЕНИЕ (3 задачи) ---
       if (topicId === "pressure") {
         const F = Math.floor(Math.random() * 500) + 100;
         const S = Math.floor(Math.random() * 10) + 2;
         const P = Math.round(F / S);
-        
-        let opts = new Set();
-        opts.add(P);
-        while(opts.size < 4) {
-             let fake = P + (Math.floor(Math.random() * 20) - 10);
-             if(fake !== P && fake > 0) opts.add(fake);
-        }
-        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
-        const correctIndex = optsArr.indexOf(P);
+        let opts1 = new Set(); opts1.add(P);
+        while(opts1.size < 4) { let fake = P + (Math.floor(Math.random() * 20) - 10); if(fake !== P && fake > 0) opts1.add(fake); }
+        const opts1Arr = Array.from(opts1).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Какое давление оказывает сила ${F} Н на площадь ${S} м²?`, opts: opts1Arr.map(val => `${val} Па`), ans: opts1Arr.indexOf(P), expl: `Давление: p = F/S = ${F}/${S} = ${P} Па.` });
 
-        tasks.push({
-          q: `Какое давление оказывает сила ${F} Н на площадь ${S} м²?`,
-          opts: optsArr.map(val => `${val} Па`),
-          ans: correctIndex
-        });
+        const rho = 1000; const g = 10;
+        const h = Math.floor(Math.random() * 10) + 1;
+        const p_liquid = rho * g * h;
+        let opts2 = new Set(); opts2.add(p_liquid);
+        while(opts2.size < 4) { let fake = p_liquid + (Math.floor(Math.random() * 1000) - 500); if(fake !== p_liquid && fake > 0) opts2.add(fake); }
+        const opts2Arr = Array.from(opts2).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Чему равно гидростатическое давление на глубине ${h} м в воде? (ρ=1000 кг/м³, g=10 м/с²)`, opts: opts2Arr.map(val => `${val} Па`), ans: opts2Arr.indexOf(p_liquid), expl: `p = ρgh = 1000·10·${h} = ${p_liquid} Па.` });
+
+        const P3 = Math.floor(Math.random() * 100) + 50;
+        const S3 = Math.floor(Math.random() * 5) + 1;
+        const F3 = P3 * S3;
+        let opts3 = new Set(); opts3.add(F3);
+        while(opts3.size < 4) { let fake = F3 + (Math.floor(Math.random() * 50) - 25); if(fake !== F3 && fake > 0) opts3.add(fake); }
+        const opts3Arr = Array.from(opts3).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Сила давления на площадь ${S3} м² составляет ${F3} Н. Чему равно давление?`, opts: opts3Arr.map(val => `${val} Па`), ans: opts3Arr.indexOf(P3), expl: `p = F/S = ${F3}/${S3} = ${P3} Па.` });
       }
 
+      // --- РАБОТА И МОЩНОСТЬ (3 задачи) ---
       if (topicId === "work_power") {
         const F = Math.floor(Math.random() * 100) + 20;
         const s = Math.floor(Math.random() * 50) + 10;
         const A = F * s;
-        
-        let opts = new Set();
-        opts.add(A);
-        while(opts.size < 4) {
-             let fake = A + (Math.floor(Math.random() * 50) - 25);
-             if(fake !== A && fake > 0) opts.add(fake);
-        }
-        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
-        const correctIndex = optsArr.indexOf(A);
+        let opts1 = new Set(); opts1.add(A);
+        while(opts1.size < 4) { let fake = A + (Math.floor(Math.random() * 50) - 25); if(fake !== A && fake > 0) opts1.add(fake); }
+        const opts1Arr = Array.from(opts1).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Какую работу совершает сила ${F} Н на пути ${s} м?`, opts: opts1Arr.map(val => `${val} Дж`), ans: opts1Arr.indexOf(A), expl: `A = F·s = ${F}·${s} = ${A} Дж.` });
 
-        tasks.push({
-          q: `Какую работу совершает сила ${F} Н на пути ${s} м?`,
-          opts: optsArr.map(val => `${val} Дж`),
-          ans: correctIndex
-        });
+        const A2 = Math.floor(Math.random() * 1000) + 100;
+        const t2 = Math.floor(Math.random() * 10) + 2;
+        const N2 = Math.round(A2 / t2);
+        let opts2 = new Set(); opts2.add(N2);
+        while(opts2.size < 4) { let fake = N2 + (Math.floor(Math.random() * 20) - 10); if(fake !== N2 && fake > 0) opts2.add(fake); }
+        const opts2Arr = Array.from(opts2).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Работа ${A2} Дж совершена за ${t2} с. Какова мощность?`, opts: opts2Arr.map(val => `${val} Вт`), ans: opts2Arr.indexOf(N2), expl: `N = A/t = ${A2}/${t2} ≈ ${N2} Вт.` });
+
+        const A3 = Math.floor(Math.random() * 500) + 50;
+        const N3 = Math.floor(Math.random() * 50) + 10;
+        const t3 = Math.round(A3 / N3);
+        let opts3 = new Set(); opts3.add(t3);
+        while(opts3.size < 4) { let fake = t3 + (Math.floor(Math.random() * 10) - 5); if(fake !== t3 && fake > 0) opts3.add(fake); }
+        const opts3Arr = Array.from(opts3).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `За какое время двигатель мощностью ${N3} Вт совершит работу ${A3} Дж?`, opts: opts3Arr.map(val => `${val} с`), ans: opts3Arr.indexOf(t3), expl: `t = A/N = ${A3}/${N3} ≈ ${t3} с.` });
       }
 
+      // --- АРХИМЕДОВА СИЛА (3 задачи) ---
       if (topicId === "archimedes") {
-        const rho = 1000;
-        const g = 10;
+        const rho = 1000; const g = 10;
         const V = Math.floor(Math.random() * 5) + 1;
         const Fa = rho * g * V;
-        
-        let opts = new Set();
-        opts.add(Fa);
-        while(opts.size < 4) {
-             let fake = Fa + (Math.floor(Math.random() * 1000) - 500);
-             if(fake !== Fa && fake > 0) opts.add(fake);
-        }
-        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
-        const correctIndex = optsArr.indexOf(Fa);
+        let opts1 = new Set(); opts1.add(Fa);
+        while(opts1.size < 4) { let fake = Fa + (Math.floor(Math.random() * 1000) - 500); if(fake !== Fa && fake > 0) opts1.add(fake); }
+        const opts1Arr = Array.from(opts1).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Чему равна архимедова сила для тела объемом ${V} м³ в воде?`, opts: opts1Arr.map(val => `${val} Н`), ans: opts1Arr.indexOf(Fa), expl: `F_A = ρgV = 1000·10·${V} = ${Fa} Н.` });
 
-        tasks.push({
-          q: `Чему равна архимедова сила, действующая на тело объемом ${V} м³, полностью погруженное в воду? (ρ=1000 кг/м³, g=10 м/с²)`,
-          opts: optsArr.map(val => `${val} Н`),
-          ans: correctIndex
-        });
+        const Fa2 = Math.floor(Math.random() * 5000) + 1000;
+        const V2 = Math.round(Fa2 / (rho * g));
+        let opts2 = new Set(); opts2.add(V2);
+        while(opts2.size < 4) { let fake = V2 + (Math.floor(Math.random() * 2) - 1); if(fake !== V2 && fake > 0) opts2.add(fake); }
+        const opts2Arr = Array.from(opts2).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Архимедова сила равна ${Fa2} Н. Каков объем тела в воде?`, opts: opts2Arr.map(val => `${val} м³`), ans: opts2Arr.indexOf(V2), expl: `V = F_A / (ρg) = ${Fa2}/10000 = ${V2} м³.` });
+
+        const Fa3 = Math.floor(Math.random() * 500) + 100;
+        const V3 = Math.floor(Math.random() * 5) + 1;
+        const rho3 = Math.round(Fa3 / (g * V3));
+        let opts3 = new Set(); opts3.add(rho3);
+        while(opts3.size < 4) { let fake = rho3 + (Math.floor(Math.random() * 100) - 50); if(fake !== rho3 && fake > 0) opts3.add(fake); }
+        const opts3Arr = Array.from(opts3).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `На тело объемом ${V3} м³ действует сила Архимеда ${Fa3} Н. Какова плотность жидкости?`, opts: opts3Arr.map(val => `${val} кг/м³`), ans: opts3Arr.indexOf(rho3), expl: `ρ = F_A / (gV) = ${Fa3}/(10·${V3}) = ${rho3} кг/м³.` });
       }
 
+      // --- ТЕПЛОВЫЕ ЯВЛЕНИЯ (3 задачи) ---
       if (topicId === "thermal") {
         const c = 4200;
         const m = Math.floor(Math.random() * 10) + 1;
         const dt = Math.floor(Math.random() * 50) + 10;
         const Q = c * m * dt;
-        
-        let opts = new Set();
-        opts.add(Q);
-        while(opts.size < 4) {
-             let fake = Q + (Math.floor(Math.random() * 10000) - 5000);
-             if(fake !== Q && fake > 0) opts.add(fake);
-        }
-        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
-        const correctIndex = optsArr.indexOf(Q);
+        let opts1 = new Set(); opts1.add(Q);
+        while(opts1.size < 4) { let fake = Q + (Math.floor(Math.random() * 10000) - 5000); if(fake !== Q && fake > 0) opts1.add(fake); }
+        const opts1Arr = Array.from(opts1).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Сколько теплоты нужно для нагрева ${m} кг воды на ${dt} °C? (c=4200)`, opts: opts1Arr.map(val => `${val} Дж`), ans: opts1Arr.indexOf(Q), expl: `Q = cmΔt = 4200·${m}·${dt} = ${Q} Дж.` });
 
-        tasks.push({
-          q: `Какое количество теплоты нужно сообщить ${m} кг воды, чтобы нагреть её на ${dt} °C? (c=4200 Дж/(кг·°C))`,
-          opts: optsArr.map(val => `${val} Дж`),
-          ans: correctIndex
-        });
+        const Q2 = Math.floor(Math.random() * 100000) + 10000;
+        const dt2 = Math.floor(Math.random() * 50) + 10;
+        const m2 = Math.round(Q2 / (c * dt2));
+        let opts2 = new Set(); opts2.add(m2);
+        while(opts2.size < 4) { let fake = m2 + (Math.floor(Math.random() * 5) - 2); if(fake !== m2 && fake > 0) opts2.add(fake); }
+        const opts2Arr = Array.from(opts2).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Для нагрева воды на ${dt2} °C потребовалось ${Q2} Дж. Какова масса воды?`, opts: opts2Arr.map(val => `${val} кг`), ans: opts2Arr.indexOf(m2), expl: `m = Q / (cΔt) = ${Q2}/(4200·${dt2}) ≈ ${m2} кг.` });
+
+        const Q3 = Math.floor(Math.random() * 50000) + 5000;
+        const m3 = Math.floor(Math.random() * 5) + 1;
+        const dt3 = Math.round(Q3 / (c * m3));
+        let opts3 = new Set(); opts3.add(dt3);
+        while(opts3.size < 4) { let fake = dt3 + (Math.floor(Math.random() * 10) - 5); if(fake !== dt3 && fake > 0) opts3.add(fake); }
+        const opts3Arr = Array.from(opts3).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Сообщив ${Q3} Дж теплоты ${m3} кг воды, на сколько градусов она нагреется?`, opts: opts3Arr.map(val => `${val} °C`), ans: opts3Arr.indexOf(dt3), expl: `Δt = Q / (cm) = ${Q3}/(4200·${m3}) ≈ ${dt3} °C.` });
       }
 
+      // --- ЭЛЕКТРИЧЕСТВО (3 задачи) ---
       if (topicId === "electricity") {
         const U = Math.floor(Math.random() * 100) + 10;
         const R = Math.floor(Math.random() * 20) + 2;
         const I = (U / R).toFixed(1);
-        
-        let opts = new Set();
-        opts.add(parseFloat(I));
-        while(opts.size < 4) {
-            let fake = parseFloat((parseFloat(I) + (Math.random() * 4 - 2)).toFixed(1));
-            if(fake > 0 && !opts.has(fake)) opts.add(fake);
-        }
-        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
-        const correctIndex = optsArr.indexOf(parseFloat(I));
+        let opts1 = new Set(); opts1.add(parseFloat(I));
+        while(opts1.size < 4) { let fake = parseFloat((parseFloat(I) + (Math.random() * 4 - 2)).toFixed(1)); if(fake > 0 && !opts1.has(fake)) opts1.add(fake); }
+        const opts1Arr = Array.from(opts1).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Напряжение ${U} В, сопротивление ${R} Ом. Чему равна сила тока?`, opts: opts1Arr.map(val => `${val} А`), ans: opts1Arr.indexOf(parseFloat(I)), expl: `I = U/R = ${U}/${R} = ${I} А.` });
 
-        tasks.push({
-          q: `Напряжение на участке цепи ${U} В, сопротивление ${R} Ом. Чему равна сила тока?`,
-          opts: optsArr.map(val => `${val} А`),
-          ans: correctIndex
-        });
+        const I2 = (Math.random() * 5 + 0.5).toFixed(1);
+        const R2 = Math.floor(Math.random() * 20) + 2;
+        const U2 = (parseFloat(I2) * R2).toFixed(1);
+        let opts2 = new Set(); opts2.add(parseFloat(U2));
+        while(opts2.size < 4) { let fake = parseFloat((parseFloat(U2) + (Math.random() * 10 - 5)).toFixed(1)); if(fake > 0 && !opts2.has(fake)) opts2.add(fake); }
+        const opts2Arr = Array.from(opts2).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Сила тока ${I2} А, сопротивление ${R2} Ом. Чему равно напряжение?`, opts: opts2Arr.map(val => `${val} В`), ans: opts2Arr.indexOf(parseFloat(U2)), expl: `U = I·R = ${I2}·${R2} = ${U2} В.` });
+
+        const U3 = Math.floor(Math.random() * 50) + 5;
+        const I3 = (Math.random() * 2 + 0.1).toFixed(1);
+        const R3 = (U3 / parseFloat(I3)).toFixed(1);
+        let opts3 = new Set(); opts3.add(parseFloat(R3));
+        while(opts3.size < 4) { let fake = parseFloat((parseFloat(R3) + (Math.random() * 5 - 2.5)).toFixed(1)); if(fake > 0 && !opts3.has(fake)) opts3.add(fake); }
+        const opts3Arr = Array.from(opts3).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Напряжение ${U3} В, сила тока ${I3} А. Чему равно сопротивление?`, opts: opts3Arr.map(val => `${val} Ом`), ans: opts3Arr.indexOf(parseFloat(R3)), expl: `R = U/I = ${U3}/${I3} ≈ ${R3} Ом.` });
       }
 
+      // --- ОСТАЛЬНЫЕ ТЕМЫ (по 3 задачи) ---
       if (topicId === "magnetism") {
-         tasks.push({
-          q: "Какое явление лежит в основе работы электромагнита?",
-          opts: ["Тепловое действие тока", "Магнитное действие тока", "Химическое действие тока", "Световое действие тока"],
-          ans: 1
-        });
+         tasks.push({ q: "Какое явление лежит в основе работы электромагнита?", opts: ["Тепловое действие тока", "Магнитное действие тока", "Химическое действие тока", "Световое действие тока"], ans: 1, expl: "Электромагнит работает благодаря магнитному полю, создаваемому током." });
+         tasks.push({ q: "Как взаимодействуют одноименные магнитные полюса?", opts: ["Притягиваются", "Отталкиваются", "Не взаимодействуют", "Зависит от силы"], ans: 1, expl: "Одноименные полюса (N-N или S-S) отталкиваются, разноименные притягиваются." });
+         tasks.push({ q: "Что создает магнитное поле?", opts: ["Неподвижные заряды", "Движущиеся заряды (ток)", "Только постоянные магниты", "Любые тела"], ans: 1, expl: "Магнитное поле создается движущимися электрическими зарядами (электрическим током)." });
       }
 
       if (topicId === "optics") {
         const F = Math.floor(Math.random() * 50) + 10;
         const D = (100 / F).toFixed(2);
+        let opts1 = new Set(); opts1.add(D);
+        while(opts1.size < 4) { let fake = (100 / (F + (Math.random()*10 - 5))).toFixed(2); if(!opts1.has(fake)) opts1.add(fake); }
+        const opts1Arr = Array.from(opts1).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Оптическая сила линзы с фокусным расстоянием ${F} см?`, opts: opts1Arr.map(val => `${val} дптр`), ans: opts1Arr.indexOf(D), expl: `D = 1/F(м) = 1/${F/100} = ${D} дптр.` });
         
-        let opts = new Set();
-        opts.add(D);
-        while(opts.size < 4) {
-            let fake = (100 / (F + (Math.random()*10 - 5))).toFixed(2);
-            if(!opts.has(fake)) opts.add(fake);
-        }
-        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
-        const correctIndex = optsArr.indexOf(D);
-
-        tasks.push({
-          q: `Определите оптическую силу линзы с фокусным расстоянием ${F} см.`,
-          opts: optsArr.map(val => `${val} дптр`),
-          ans: correctIndex
-        });
+        const angleIn = Math.floor(Math.random() * 40) + 10;
+        tasks.push({ q: `Угол падения луча равен ${angleIn}°. Чему равен угол отражения?`, opts: [`${angleIn}°`, `${90-angleIn}°`, `${angleIn*2}°`, `0°`], ans: 0, expl: "По закону отражения угол падения равен углу отражения." });
+        tasks.push({ q: "Какая линза собирает лучи в одну точку?", opts: ["Рассеивающая", "Собирающая", "Плоская", "Цилиндрическая"], ans: 1, expl: "Собирающая (выпуклая) линза фокусирует параллельные лучи в фокусе." });
       }
 
       if (topicId === "mechanics9") {
         const m = Math.floor(Math.random() * 20) + 2;
         const v = Math.floor(Math.random() * 30) + 5;
         const p = m * v;
+        let opts1 = new Set(); opts1.add(p);
+        while(opts1.size < 4) { let fake = p + (Math.floor(Math.random() * 10) - 5) * 5; if(fake !== p && fake > 0) opts1.add(fake); }
+        const opts1Arr = Array.from(opts1).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Импульс тела массой ${m} кг со скоростью ${v} м/с?`, opts: opts1Arr.map(val => `${val} кг·м/с`), ans: opts1Arr.indexOf(p), expl: `p = m·v = ${m}·${v} = ${p} кг·м/с.` });
         
-        let opts = new Set();
-        opts.add(p);
-        while(opts.size < 4) {
-            let fake = p + (Math.floor(Math.random() * 10) - 5) * 5;
-            if(fake !== p && fake > 0) opts.add(fake);
-        }
-        const optsArr = Array.from(opts).sort(() => 0.5 - Math.random());
-        const correctIndex = optsArr.indexOf(p);
-
-        tasks.push({
-          q: `Тело массой ${m} кг движется со скоростью ${v} м/с. Чему равен его импульс?`,
-          opts: optsArr.map(val => `${val} кг·м/с`),
-          ans: correctIndex
-        });
+        const a = Math.floor(Math.random() * 5) + 1;
+        const t = Math.floor(Math.random() * 10) + 2;
+        const v_final = a * t;
+        let opts2 = new Set(); opts2.add(v_final);
+        while(opts2.size < 4) { let fake = v_final + (Math.floor(Math.random() * 10) - 5); if(fake !== v_final && fake > 0) opts2.add(fake); }
+        const opts2Arr = Array.from(opts2).sort(() => 0.5 - Math.random());
+        tasks.push({ q: `Тело разгоняется с ускорением ${a} м/с². Скорость через ${t} с?`, opts: opts2Arr.map(val => `${val} м/с`), ans: opts2Arr.indexOf(v_final), expl: `v = at = ${a}·${t} = ${v_final} м/с.` });
+        tasks.push({ q: "В чем измеряется импульс?", opts: ["Н", "кг·м/с", "Дж", "Вт"], ans: 1, expl: "Импульс измеряется в килограмм-метрах в секунду (кг·м/с)." });
       }
 
       if (topicId === "waves") {
         const f = Math.floor(Math.random() * 200) + 50;
-        const T = (1 / f).toFixed(3); 
+        const T = (1 / f).toFixed(3);
+        let opts1 = new Set(); opts1.add(T);
+        while(opts1.size < 4) { let fake = (1 / (f + (Math.random()*20 - 10))).toFixed(3); if(!opts1.has(fake)) opts1.add(fake); }
+        const opts1Arr = Array.from(opts1).sort();
+        tasks.push({ q: `Период колебаний при частоте ${f} Гц?`, opts: opts1Arr.map(val => `${val} с`), ans: opts1Arr.indexOf(T), expl: `T = 1/f = 1/${f} ≈ ${T} с.` });
         
-        let opts = new Set();
-        opts.add(T);
-        while(opts.size < 4) {
-            let fake = (1 / (f + (Math.random()*20 - 10))).toFixed(3);
-            if(!opts.has(fake)) opts.add(fake);
-        }
-        const optsArr = Array.from(opts).sort();
-        const correctIndex = optsArr.indexOf(T);
-
-        tasks.push({
-          q: `Чему равен период колебаний, если частота ${f} Гц?`,
-          opts: optsArr.map(val => `${val} с`),
-          ans: correctIndex
-        });
+        const v_sound = 340;
+        const f2 = Math.floor(Math.random() * 500) + 100;
+        const lambda = (v_sound / f2).toFixed(2);
+        let opts2 = new Set(); opts2.add(lambda);
+        while(opts2.size < 4) { let fake = (v_sound / (f2 + (Math.random()*50 - 25))).toFixed(2); if(!opts2.has(fake)) opts2.add(fake); }
+        const opts2Arr = Array.from(opts2).sort();
+        tasks.push({ q: `Длина звуковой волны частотой ${f2} Гц (v=340 м/с)?`, opts: opts2Arr.map(val => `${val} м`), ans: opts2Arr.indexOf(lambda), expl: `λ = v/f = 340/${f2} ≈ ${lambda} м.` });
+        tasks.push({ q: "Что такое частота?", opts: ["Время одного колебания", "Число колебаний в секунду", "Скорость волны", "Длина волны"], ans: 1, expl: "Частота — это число полных колебаний, совершенных за одну секунду." });
       }
 
       if (topicId === "nuclear") {
-        tasks.push({
-          q: "Какие частицы входят в состав ядра атома?",
-          opts: ["Электроны и протоны", "Протоны и нейтроны", "Нейтроны и электроны", "Только протоны"],
-          ans: 1
-        });
+        tasks.push({ q: "Из чего состоит ядро атома?", opts: ["Электроны и протоны", "Протоны и нейтроны", "Нейтроны и электроны", "Только протоны"], ans: 1, expl: "Ядро состоит из нуклонов: протонов и нейтронов." });
+        tasks.push({ q: "Какой заряд у протона?", opts: ["Положительный", "Отрицательный", "Нейтральный", "Переменный"], ans: 0, expl: "Протон имеет положительный элементарный заряд (+1)." });
+        tasks.push({ q: "Что такое изотопы?", opts: ["Атомы с разным числом протонов", "Атомы с разным числом нейтронов", "Ионы элементов", "Молекулы газа"], ans: 1, expl: "Изотопы — разновидности атомов одного элемента с разным числом нейтронов." });
       }
 
       if (topicId === "astrophysics") {
-        tasks.push({
-          q: "Какая планета Солнечной системы является самой большой?",
-          opts: ["Земля", "Марс", "Юпитер", "Сатурн"],
-          ans: 2
-        });
+        tasks.push({ q: "Самая большая планета Солнечной системы?", opts: ["Земля", "Марс", "Юпитер", "Сатурн"], ans: 2, expl: "Юпитер — газовый гигант, самая массивная планета." });
+        tasks.push({ q: "Что такое световой год?", opts: ["Время полета света", "Расстояние, которое свет проходит за год", "Скорость света", "Яркость звезды"], ans: 1, expl: "Световой год — это единица расстояния, равная пути света за один год." });
+        tasks.push({ q: "Какая звезда ближайшая к Земле?", opts: ["Сириус", "Полярная", "Солнце", "Альфа Центавра"], ans: 2, expl: "Солнце — ближайшая к нам звезда, центр Солнечной системы." });
       }
 
       if (topicId === "oge1") {
-        tasks.push({
-          q: "Автомобиль движется по прямой улице. На графике представлена зависимость его скорости от времени. Если скорость изменилась с 0 до 20 м/с за 10 секунд, чему равно ускорение?",
-          opts: ["1 м/с²", "2 м/с²", "3 м/с²", "4 м/с²"],
-          ans: 1
-        });
-        tasks.push({
-          q: "Легковой автомобиль (1000 кг) и грузовик движутся с одинаковой скоростью. Импульс грузовика в 3 раза больше. Какова масса грузовика?",
-          opts: ["2000 кг", "2500 кг", "3000 кг", "3500 кг"],
-          ans: 2
-        });
+        tasks.push({ q: "Ускорение при изменении скорости с 0 до 20 м/с за 10 с?", opts: ["1 м/с²", "2 м/с²", "3 м/с²", "4 м/с²"], ans: 1, expl: "a = Δv/Δt = 20/10 = 2 м/с²." });
+        tasks.push({ q: "Масса грузовика, если его импульс в 3 раза больше авто (1000 кг)?", opts: ["2000 кг", "2500 кг", "3000 кг", "3500 кг"], ans: 2, expl: "При равной скорости масса пропорциональна импульсу. 1000·3 = 3000 кг." });
+        tasks.push({ q: "Какая сила вызывает падение тел?", opts: ["Упругости", "Трения", "Тяжести", "Архимеда"], ans: 2, expl: "Сила тяжести притягивает тела к центру Земли." });
       }
 
       return tasks.length > 0 ? tasks : [{
         q: "Задачи по этой теме временно недоступны.",
         opts: ["Понятно"],
-        ans: 0
+        ans: 0,
+        expl: ""
       }];
     }
 
@@ -1290,15 +1435,33 @@
       sectionTitle.textContent = data.title;
       container.innerHTML = '';
 
+      // Обработка ОГЭ
       if (tabKey === 'oge') {
         container.innerHTML = `
-          <div class="maintenance-card">
-            <div class="maintenance-icon"><i class="fas fa-tools"></i></div>
-            <div class="maintenance-title">Раздел закрыт на техническое обслуживание</div>
-            <div class="maintenance-text">
-              Мы обновляем базу заданий ОГЭ, чтобы сделать её ещё лучше.<br>
-              Пожалуйста, попробуйте позже.
+          <div class="oge-dev-card">
+            <div class="oge-dev-icon"><i class="fas fa-tools"></i></div>
+            <div class="oge-dev-title">ОГЭ закрыт на доработку</div>
+            <div class="oge-dev-text">
+              В связи с многократными ошибками и неточностями в заданиях<br>
+              блок временно недоступен.
             </div>
+            <span class="oge-dev-date">🚀 Запуск: 15 апреля</span>
+          </div>
+        `;
+        return;
+      }
+
+      // Обработка ВПР — ИСПРАВЛЕННЫЙ БЛОК
+      if (tabKey === 'vpr') {
+        container.innerHTML = `
+          <div class="vpr-dev-card">
+            <div class="vpr-dev-icon"><i class="fas fa-clipboard-check"></i></div>
+            <div class="vpr-dev-title">ВПР — В разработке</div>
+            <div class="vpr-dev-text">
+              На основе ваших отзывов и предложений мы добавили этот блок.<br>
+              Раздел находится в активной разработке.
+            </div>
+            <span class="vpr-dev-date">🚀 Запуск: 15 апреля вместе с ОГЭ</span>
           </div>
         `;
         return;
@@ -1362,10 +1525,7 @@
         renderMath();
       } else {
         let tasksHtml = '';
-
-        if (currentTopic.formulaInfo) {
-          tasksHtml += currentTopic.formulaInfo;
-        }
+        if (currentTopic.formulaInfo) tasksHtml += currentTopic.formulaInfo;
 
         currentTopic.tasks.forEach((task, idx) => {
           const score = isTopicVerified && userAnswers[idx] !== undefined && userAnswers[idx] === task.ans ? 5 : 0;
@@ -1378,6 +1538,7 @@
                   <label class="task-option">
                     <input type="radio" name="task-${idx}" value="${i}" ${userAnswers[idx] === i ? 'checked' : ''} ${isTopicVerified ? 'disabled' : ''}>
                     ${opt}
+                    <div class="explanation">${task.expl || (i === task.ans ? "Верно!" : "Неверно.")}</div>
                   </label>
                 `).join('')}
               </div>
@@ -1401,6 +1562,10 @@
           actionButtons = `
             <button class="modal-btn close-topic-btn" id="close-topic">Закрыть тему</button>
             ${nextButton}
+            <button class="print-btn" onclick="showPrintDemo()">
+              <i class="fas fa-print"></i> Распечатать
+              <span class="demo-badge">DEMO</span>
+            </button>
           `;
         } else {
           actionButtons = `<button class="modal-btn check-btn" id="check-answers">Проверить ответы</button>`;
@@ -1408,12 +1573,12 @@
 
         if (isTopicVerified) {
           actionButtons += `
-            <div class="chat-buttons">
-              <a href="https://t.me/genesischats" target="_blank" class="chat-btn telegram">
+            <div class="modal-chat-buttons">
+              <a href="https://t.me/genesischats" target="_blank" class="modal-chat-btn telegram">
                 <i class="fab fa-telegram"></i>
                 <span>Обсудить в Telegram</span>
               </a>
-              <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="chat-btn max">
+              <a href="https://max.ru/join/ouN_swD1KxEk2yxrfDSZ9ZJ7bsnMioDRIlJpbavTCns" target="_blank" class="modal-chat-btn max">
                 <i class="fas fa-comment-dots"></i>
                 <span>Задать вопрос в MAX</span>
               </a>
@@ -1421,11 +1586,7 @@
           `;
         }
 
-        modalBody.innerHTML = tasksHtml + `
-          <div class="modal-actions">
-            ${actionButtons}
-          </div>
-        `;
+        modalBody.innerHTML = tasksHtml + `<div class="modal-actions">${actionButtons}</div>`;
         renderMath();
 
         const radioInputs = modalBody.querySelectorAll('input[type="radio"]');
@@ -1439,25 +1600,13 @@
         });
       }
 
-      document.getElementById('prev-slide')?.addEventListener('click', () => {
-        currentSlide--;
-        renderModalContent();
-      });
-      
-      document.getElementById('next-slide')?.addEventListener('click', () => {
-        currentSlide++;
-        renderModalContent();
-      });
+      document.getElementById('prev-slide')?.addEventListener('click', () => { currentSlide--; renderModalContent(); });
+      document.getElementById('next-slide')?.addEventListener('click', () => { currentSlide++; renderModalContent(); });
       
       document.getElementById('check-answers')?.addEventListener('click', () => {
         const totalTasks = currentTopic.tasks.length;
         const answeredCount = Object.keys(userAnswers).length;
-        
-        if (answeredCount < totalTasks) {
-            alert(`Вы ответили не на все вопросы! (${answeredCount} из ${totalTasks})`);
-            return;
-        }
-        
+        if (answeredCount < totalTasks) { alert(`Вы ответили не на все вопросы! (${answeredCount} из ${totalTasks})`); return; }
         isTopicVerified = true;
         renderModalContent();
       });
@@ -1468,16 +1617,12 @@
         openPresentation(nextTopicId, currentTabKey);
       });
       
-      document.getElementById('restart-topic')?.addEventListener('click', () => {
-        currentSlide = 0;
-        userAnswers = {};
-        isTopicVerified = false;
-        renderModalContent();
-      });
+      document.getElementById('restart-topic')?.addEventListener('click', () => { currentSlide = 0; userAnswers = {}; isTopicVerified = false; renderModalContent(); });
+      document.getElementById('close-topic')?.addEventListener('click', () => { closeModal(); });
+    }
 
-      document.getElementById('close-topic')?.addEventListener('click', () => {
-        closeModal();
-      });
+    function showPrintDemo() {
+      alert("Функция печати находится в демо-режиме. Возможны неточности форматирования при сохранении в PDF.");
     }
 
     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1489,14 +1634,8 @@
       });
     });
 
-    document.getElementById('close-modal').addEventListener('click', () => {
-      closeModal();
-    });
-
-    function closeModal() {
-      document.getElementById('presentation-modal').classList.remove('active');
-      isTopicVerified = false;
-    }
+    document.getElementById('close-modal').addEventListener('click', () => { closeModal(); });
+    function closeModal() { document.getElementById('presentation-modal').classList.remove('active'); isTopicVerified = false; }
 
     renderTopics('physics7');
   </script>
